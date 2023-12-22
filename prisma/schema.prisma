@@ -1,0 +1,40 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model FoodPlace {
+  id              Int       @id @default(autoincrement())
+  main_theme      String    @db.VarChar(255)
+  place_name      String    @db.VarChar(255)
+  place_type      PlaceType @default(RESTAURANT)
+  tried_before    Boolean   @default(false)
+  lb_cost         Int?      @default(1)
+  ub_cost         Int?      @default(20)
+  personal_rating Int?      @default(0)
+  google_rating   Int?      @default(0)
+  region          Region?   @default(ISLANDWIDE)
+}
+
+enum PlaceType {
+  RESTAURANT
+  HAWKER_STALL
+  CANTEEN_STALL
+  BAKERY
+  DESSERT_PLACE
+}
+
+enum Region {
+  NORTH
+  EAST
+  CENTRAL
+  WEST
+  ISLANDWIDE
+}
