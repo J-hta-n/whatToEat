@@ -1,7 +1,7 @@
 import React from "react";
 
-const choosePage = () => {
+const ChoosePage = () => {
   return <div>ChoosePage</div>;
 };
 
-export default choosePage;
+export default ChoosePage;

@@ -1,5 +1,16 @@
-import Image from "next/image";
+import database from "@/prisma";
+import React from "react";
 
-export default function Home() {
-  return <main>HomePage</main>;
-}
+const HomePage = async () => {
+  const foodPlaces = await database.foodPlace.findMany();
+
+  return (
+    <div>
+      {foodPlaces.map((place) => (
+        <p>{place.place_name}</p>
+      ))}
+    </div>
+  );
+};
+
+export default HomePage;
