@@ -16,16 +16,19 @@ const NavBarLinks = () => {
       page: "Choose",
     },
     {
-      href: "/foodlist",
-      page: "Foodlist",
+      href: "/foodplaces",
+      page: "Food Places",
     },
   ];
   return (
     <div>
       {navBarLinks.map((link) => (
         <Link
+          key={link.href}
           href={link.href}
-          className="mx-5 text-emerald-500 hover:text-emerald-900"
+          className={`mx-5 ${
+            activeHref === link.href ? "text-orange-600" : "text-emerald-500"
+          }  hover:text-emerald-700`}
         >
           {link.page}
         </Link>

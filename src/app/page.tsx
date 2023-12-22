@@ -4,13 +4,7 @@ import React from "react";
 const HomePage = async () => {
   const foodPlaces = await database.foodPlace.findMany();
 
-  return (
-    <div>
-      {foodPlaces.map((place) => (
-        <p>{place.place_name}</p>
-      ))}
-    </div>
-  );
+  return <div>HomePage</div>;
 };
 
 export default HomePage;
