@@ -1,12 +1,19 @@
 "use client";
 
-import { TAddFoodPlaceSchema, addFoodPlaceSchema } from "@/validationSchemas";
+import {
+  TAddFoodPlaceSchema,
+  addFoodPlaceSchema,
+  defaultFoodPlace,
+} from "@/validationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Dialog, Flex } from "@radix-ui/themes";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
 const AddFoodPlaceForm = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -14,16 +21,26 @@ const AddFoodPlaceForm = () => {
     reset,
   } = useForm<TAddFoodPlaceSchema>({
     resolver: zodResolver(addFoodPlaceSchema),
+    defaultValues: defaultFoodPlace,
   });
   const onSubmit = async (data: TAddFoodPlaceSchema) => {
-    console.log(data);
+    const response = await fetch("/api/foodplaces", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+    const responseData = await response.json();
+    if (!response.ok) {
+      console.log(responseData);
+      alert(`Error ${response.status}: ${JSON.stringify(responseData.error)}`);
+      return;
+    }
     reset();
+    setIsOpen(false);
+    router.refresh();
   };
   return (
-    <Dialog.Root>
-      <Dialog.Trigger>
-        <Button>Add new place</Button>
-      </Dialog.Trigger>
+    <Dialog.Root open={isOpen}>
+      <Button onClick={() => setIsOpen(true)}>Add new place</Button>
       <Dialog.Content>
         <Dialog.Title>New food place</Dialog.Title>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -45,10 +62,12 @@ const AddFoodPlaceForm = () => {
           })}
           <div className="pt-10" />
           <Flex gap="5">
-            <Dialog.Close>
-              <Button type="submit">cancel</Button>
-            </Dialog.Close>
-            <Button>Submit</Button>
+            <Button type="button" onClick={() => setIsOpen(false)}>
+              cancel
+            </Button>
+            <Button type="submit" disabled={isSubmitting}>
+              Submit
+            </Button>
           </Flex>
         </form>
       </Dialog.Content>
