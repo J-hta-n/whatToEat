@@ -1,9 +1,12 @@
 import database from "@/prisma";
 import { TFoodPlaceSchema, foodPlaceSchema } from "@/validationSchemas";
-import { FoodPlace } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: NextRequest) {
+interface Props {
+  params: { id: string };
+}
+
+export async function PATCH(req: NextRequest, { params }: Props) {
   const body: TFoodPlaceSchema = await req.json();
   const validation = foodPlaceSchema.safeParse(body);
   if (!validation.success) {
@@ -14,12 +17,23 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: zodErrors }, { status: 400 });
   }
   try {
-    const newFoodPlace = await database.foodPlace.create({
+    const placeId = parseInt(params.id);
+    const foodPlace = await database.foodPlace.findUnique({
+      where: { id: placeId },
+    });
+    if (!foodPlace) {
+      return NextResponse.json(
+        { error: "invalid food place id" },
+        { status: 404 }
+      );
+    }
+    const updatedFoodPlace = await database.foodPlace.update({
+      where: { id: placeId },
       data: {
         ...body,
       },
     });
-    return NextResponse.json({ status: 201 });
+    return NextResponse.json({ status: 200 });
   } catch (e) {
     console.log(e);
     return NextResponse.json({ error: e }, { status: 500 });

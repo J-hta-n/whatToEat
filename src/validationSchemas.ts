@@ -1,7 +1,7 @@
 import { PlaceType, Region } from "@prisma/client";
 import { z } from "zod";
 
-export const addFoodPlaceSchema = z.object({
+export const foodPlaceSchema = z.object({
   place_name: z.string().min(1, "Name is required").max(255),
   place_type: z.nativeEnum(PlaceType),
   tried_before: z.coerce.boolean(),
@@ -9,7 +9,7 @@ export const addFoodPlaceSchema = z.object({
   ub_cost: z.coerce.number().nullable(),
   personal_rating: z.coerce.number().nullable(),
   google_rating: z.coerce.number().nullable(),
-  region: z.nativeEnum(Region),
+  region: z.nativeEnum(Region).nullable(),
 });
 
 export const defaultFoodPlace = {
@@ -23,4 +23,4 @@ export const defaultFoodPlace = {
   region: Region.ISLANDWIDE,
 };
 
-export type TAddFoodPlaceSchema = z.infer<typeof addFoodPlaceSchema>;
+export type TFoodPlaceSchema = z.infer<typeof foodPlaceSchema>;
