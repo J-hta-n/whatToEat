@@ -1,7 +1,6 @@
 import database from "@/prisma";
 import React from "react";
 import FoodPlaceForm from "../../_components/FoodPlaceForm";
-import { FoodPlace } from "@prisma/client";
 
 interface Props {
   params: {

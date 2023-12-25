@@ -10,6 +10,8 @@ import Link from "next/link";
 import { MdOutlineModeEdit } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { enumMappings } from "@/../prisma/enumMappings";
+import DeleteDialog from "./_components/DeleteDialog";
+import { Toaster } from "react-hot-toast";
 
 const FoodPlacesPage = async () => {
   const foodPlaces: FoodPlace[] = await database.foodPlace.findMany({
@@ -65,19 +67,13 @@ const FoodPlacesPage = async () => {
                     <MdOutlineModeEdit />
                   </IconButton>
                 </Link>
-                <IconButton
-                  radius="full"
-                  size="1"
-                  variant="ghost"
-                  className="p-0 m-0"
-                >
-                  <RiDeleteBin6Line />
-                </IconButton>
+                <DeleteDialog id={place.id} name={place.place_name} />
               </Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>
       </Table.Root>
+      <Toaster />
     </>
   );
 };
