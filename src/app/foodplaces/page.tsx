@@ -1,12 +1,20 @@
 import database from "@/prisma";
 import { FoodPlace } from "@prisma/client";
-import { Table, TableColumnHeaderCell } from "@radix-ui/themes";
-import React from "react";
-import AddFoodPlaceForm from "./_components/AddFoodPlaceForm";
-import { enumMappings } from "../../../prisma/enumMappings";
+import {
+  Button,
+  IconButton,
+  Table,
+  TableColumnHeaderCell,
+} from "@radix-ui/themes";
+import Link from "next/link";
+import { MdOutlineModeEdit } from "react-icons/md";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { enumMappings } from "@/../prisma/enumMappings";
 
 const FoodPlacesPage = async () => {
-  const foodPlaces: FoodPlace[] = await database.foodPlace.findMany();
+  const foodPlaces: FoodPlace[] = await database.foodPlace.findMany({
+    orderBy: { id: "asc" },
+  });
   const columns: { label: string; value: keyof FoodPlace }[] = [
     { label: "name", value: "place_name" },
     { label: "place type", value: "place_type" },
@@ -20,7 +28,9 @@ const FoodPlacesPage = async () => {
 
   return (
     <>
-      <AddFoodPlaceForm />
+      <Link href="/foodplaces/add">
+        <Button>Add new place</Button>
+      </Link>
       <div className="mt-5"></div>
       <Table.Root>
         <Table.Header>
@@ -44,6 +54,26 @@ const FoodPlacesPage = async () => {
                     : place[col.value]}
                 </Table.Cell>
               ))}
+              <Table.Cell className="flex gap-x-3">
+                <Link href={`/foodplaces/edit/${place.id}`}>
+                  <IconButton
+                    radius="full"
+                    size="1"
+                    variant="ghost"
+                    className="p-0 m-0"
+                  >
+                    <MdOutlineModeEdit />
+                  </IconButton>
+                </Link>
+                <IconButton
+                  radius="full"
+                  size="1"
+                  variant="ghost"
+                  className="p-0 m-0"
+                >
+                  <RiDeleteBin6Line />
+                </IconButton>
+              </Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>
