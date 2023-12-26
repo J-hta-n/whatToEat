@@ -22,6 +22,7 @@ const DeleteDialog = ({ id, name }: Props) => {
       method: "DELETE",
     });
     if (!response.ok) {
+      setError(true);
       setErrorMsg(`Error ${response.status}: ${JSON.stringify(response.body)}`);
       return;
     }
@@ -68,7 +69,7 @@ const DeleteDialog = ({ id, name }: Props) => {
           <AlertDialog.Title>Error</AlertDialog.Title>
           <AlertDialog.Description size="2">{errorMsg}</AlertDialog.Description>
           <AlertDialog.Cancel>
-            <Button>Ok</Button>
+            <Button onClick={() => setError(false)}>Ok</Button>
           </AlertDialog.Cancel>
         </AlertDialog.Content>
       </AlertDialog.Root>

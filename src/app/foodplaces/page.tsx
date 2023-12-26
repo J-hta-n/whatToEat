@@ -1,32 +1,20 @@
 import database from "@/prisma";
 import { FoodPlace } from "@prisma/client";
-import {
-  Button,
-  IconButton,
-  Table,
-  TableColumnHeaderCell,
-} from "@radix-ui/themes";
+import { Button } from "@radix-ui/themes";
 import Link from "next/link";
-import { MdOutlineModeEdit } from "react-icons/md";
-import { RiDeleteBin6Line } from "react-icons/ri";
-import { enumMappings } from "@/../prisma/enumMappings";
-import DeleteDialog from "./_components/DeleteDialog";
-import { Toaster } from "react-hot-toast";
+import FoodTable from "./_components/table/FoodTable";
+import { concatMethod, getOrderBy } from "./_components/table/functions";
 
-const FoodPlacesPage = async () => {
+interface Props {
+  searchParams: FoodQuery;
+}
+
+const FoodPlacesPage = async ({ searchParams }: Props) => {
+  concatMethod(searchParams);
+  const orderBy = getOrderBy(searchParams);
   const foodPlaces: FoodPlace[] = await database.foodPlace.findMany({
-    orderBy: { id: "asc" },
+    orderBy,
   });
-  const columns: { label: string; value: keyof FoodPlace }[] = [
-    { label: "name", value: "place_name" },
-    { label: "place type", value: "place_type" },
-    // { label: "tried before", value: "tried_before" },
-    // { label: "min price", value: "lb_cost" },
-    { label: "price point", value: "ub_cost" },
-    // { label: "own rating", value: "personal_rating" },
-    { label: "google rating", value: "google_rating" },
-    { label: "region", value: "region" },
-  ];
 
   return (
     <>
@@ -34,51 +22,17 @@ const FoodPlacesPage = async () => {
         <Button>Add new place</Button>
       </Link>
       <div className="mt-5"></div>
-      <Table.Root>
-        <Table.Header>
-          <Table.Row>
-            <TableColumnHeaderCell>id</TableColumnHeaderCell>
-            {columns.map((col) => (
-              <TableColumnHeaderCell key={col.value}>
-                {col.label}
-              </TableColumnHeaderCell>
-            ))}
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {foodPlaces.map((place, i) => (
-            <Table.Row key={place.id}>
-              <Table.Cell>{i + 1}</Table.Cell>
-              {columns.map((col) => (
-                <Table.Cell key={col.value}>
-                  {enumMappings[col.value]
-                    ? enumMappings[col.value][place[col.value]]
-                    : place[col.value]}
-                </Table.Cell>
-              ))}
-              <Table.Cell className="flex gap-x-3">
-                <Link href={`/foodplaces/edit/${place.id}`}>
-                  <IconButton
-                    radius="full"
-                    size="1"
-                    variant="ghost"
-                    className="p-0 m-0"
-                  >
-                    <MdOutlineModeEdit />
-                  </IconButton>
-                </Link>
-                <DeleteDialog id={place.id} name={place.place_name} />
-              </Table.Cell>
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </Table.Root>
-      <Toaster />
+      <FoodTable searchParams={searchParams} foodPlaces={foodPlaces} />
     </>
   );
 };
 
 export default FoodPlacesPage;
+
+export type FoodQuery = {
+  sortBy?: string | string[];
+  page?: string | string[];
+};
 
 // To render everything
 // {Object.values(place).map((val, i) => (
