@@ -1,11 +1,11 @@
 import database from "@/prisma";
-import { TAddFoodPlaceSchema, addFoodPlaceSchema } from "@/validationSchemas";
+import { TFoodPlaceSchema, foodPlaceSchema } from "@/validationSchemas";
 import { FoodPlace } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-  const body: FoodPlace = await req.json();
-  const validation = addFoodPlaceSchema.safeParse(body);
+  const body: TFoodPlaceSchema = await req.json();
+  const validation = foodPlaceSchema.safeParse(body);
   if (!validation.success) {
     let zodErrors = {};
     validation.error.errors.forEach((error) => {
@@ -13,12 +13,10 @@ export async function POST(req: NextRequest) {
     });
     return NextResponse.json({ error: zodErrors }, { status: 400 });
   }
-  const { id, ...args } = body;
-  console.log(args);
   try {
     const newFoodPlace = await database.foodPlace.create({
       data: {
-        ...args,
+        ...body,
       },
     });
     return NextResponse.json({ status: 201 });
