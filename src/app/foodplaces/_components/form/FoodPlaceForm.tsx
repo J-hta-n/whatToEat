@@ -1,5 +1,6 @@
 "use client";
 
+import Spinner from "@/app/_components/Spinner";
 import {
   TFoodPlaceSchema,
   foodPlaceSchema,
@@ -7,28 +8,35 @@ import {
 } from "@/validationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FoodPlace } from "@prisma/client";
-import { Button, Dialog, Flex } from "@radix-ui/themes";
+import { Button, Flex } from "@radix-ui/themes";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
+import { inputFields } from "./InputFields";
 
 interface Props {
   existingFoodPlace?: FoodPlace;
 }
 
 const FoodPlaceForm = ({ existingFoodPlace }: Props) => {
+  // reason isSubmitting from formState is not used is bcos we
+  // only want the spinner to stop after the whole api function
+  // is done, not just after submitting on the client side, so
+  // as to improve the smoothness of the UI
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<TFoodPlaceSchema>({
     resolver: zodResolver(foodPlaceSchema),
     defaultValues: existingFoodPlace || defaultFoodPlace,
   });
   const onSubmit = async (data: TFoodPlaceSchema) => {
+    setIsSubmitting(true);
     try {
       let response: Response;
       if (existingFoodPlace) {
@@ -48,6 +56,7 @@ const FoodPlaceForm = ({ existingFoodPlace }: Props) => {
         toast.error(
           `Error ${response.status}: ${JSON.stringify(responseData.error)}`
         );
+        setIsSubmitting(false);
         return;
       }
       router.push("/foodplaces");
@@ -55,6 +64,7 @@ const FoodPlaceForm = ({ existingFoodPlace }: Props) => {
     } catch (e) {
       toast.error(`Error: ${e}`);
     }
+    setIsSubmitting(false);
   };
   return (
     <div className="flex justify-center">
@@ -82,6 +92,7 @@ const FoodPlaceForm = ({ existingFoodPlace }: Props) => {
           </Link>
           <Button type="submit" disabled={isSubmitting}>
             {existingFoodPlace ? "Update" : "Submit"}
+            {isSubmitting && <Spinner />}
           </Button>
         </Flex>
       </form>
@@ -91,14 +102,3 @@ const FoodPlaceForm = ({ existingFoodPlace }: Props) => {
 };
 
 export default FoodPlaceForm;
-
-const inputFields: { label: string; value: keyof TFoodPlaceSchema }[] = [
-  { label: "Place name", value: "place_name" },
-  { label: "Place type", value: "place_type" },
-  { label: "Tried before", value: "tried_before" },
-  { label: "Min cost", value: "lb_cost" },
-  { label: "Max cost", value: "ub_cost" },
-  { label: "Personal rating", value: "personal_rating" },
-  { label: "Google rating", value: "google_rating" },
-  { label: "Region", value: "region" },
-];

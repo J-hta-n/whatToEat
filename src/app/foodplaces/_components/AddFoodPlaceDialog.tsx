@@ -1,7 +1,7 @@
 "use client";
 
 import { Button, Dialog } from "@radix-ui/themes";
-import FoodPlaceForm from "./FoodPlaceForm";
+import FoodPlaceForm from "./form/FoodPlaceForm";
 
 const AddFoodPlaceDialog = () => {
   return (

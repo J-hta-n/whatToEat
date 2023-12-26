@@ -1,5 +1,5 @@
 import React from "react";
-import FoodPlaceForm from "../_components/FoodPlaceForm";
+import FoodPlaceForm from "../_components/form/FoodPlaceForm";
 
 const addFoodPlacePage = () => {
   return <FoodPlaceForm />;
