@@ -1,6 +1,6 @@
 import { URLSearchParams } from "url";
 import { FoodQuery } from "../../page";
-import { FoodPlace } from "@prisma/client";
+import { FoodPlace, PlaceType } from "@prisma/client";
 
 ///////////// DUP KEY METHOD FUNCTIONS /////////////
 export function dupKeyMethod(searchParams: FoodQuery) {
@@ -13,6 +13,17 @@ export function dupKeyMethod(searchParams: FoodQuery) {
       .join("&");
   });
   return new URLSearchParams(queryString);
+}
+
+// should return sth like this:     {
+//   place_type: { in: [PlaceType.BAKERY, PlaceType.RESTAURANT] },
+// },
+export function buildWhereQuery(searchParams: FoodQuery) {
+  return Object.fromEntries(
+    Object.entries(searchParams)
+      .filter(([key]) => key !== "sortBy")
+      .map(([key, value]) => [key, { in: value }])
+  );
 }
 
 ///////////// CONCAT METHOD FUNCTIONS /////////////

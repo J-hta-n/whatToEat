@@ -1,5 +1,6 @@
 import { FoodPlace } from "@prisma/client";
 
+//////// COLUMNS TO DISPLAY ///////
 export const columns: { label: string; value: keyof FoodPlace }[] = [
   { label: "name", value: "place_name" },
   { label: "place type", value: "place_type" },
@@ -12,3 +13,5 @@ export const columns: { label: string; value: keyof FoodPlace }[] = [
 ];
 
 export const columnVals: (keyof FoodPlace)[] = columns.map((col) => col.value);
+
+/////// COLUMNS TO FILTER BY ///////
