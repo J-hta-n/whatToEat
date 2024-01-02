@@ -3,6 +3,8 @@ import { FoodQuery } from "../../page";
 import { Button, Flex, Link } from "@radix-ui/themes";
 import FilterPlaceType from "./FilterPlaceType";
 import FilterRegion from "./FilterRegion";
+import FilterSelect from "./FilterSelect";
+import { PlaceType, Region } from "@prisma/client";
 
 interface Props {
   searchParams: FoodQuery;
@@ -16,8 +18,15 @@ const FilterPanel = ({ searchParams }: Props) => {
           <Button>Add new place</Button>
         </Link>
       </div>
-      <FilterPlaceType searchParams={searchParams} />
-      <FilterRegion searchParams={searchParams} />
+      <div className="w-1/5">
+        <FilterSelect<PlaceType>
+          searchParams={searchParams}
+          enumKey="place_type"
+        />
+      </div>
+      <div className="w-1/5">
+        <FilterSelect<Region> searchParams={searchParams} enumKey="region" />
+      </div>
     </Flex>
   );
 };
