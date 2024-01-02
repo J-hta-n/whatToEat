@@ -1,4 +1,4 @@
-import { FoodPlace } from "@prisma/client";
+import { FoodPlace, PlaceType, Region } from "@prisma/client";
 
 // export enum PlaceType {
 //   RESTAURANT = "Restaurant",
@@ -16,7 +16,9 @@ import { FoodPlace } from "@prisma/client";
 //   ISLANDWIDE = "Islandwide",
 // }
 
-export const enumMappings: Record<keyof FoodPlace, any> = {
+type EnumMapping = Record<PlaceType, string> | Record<Region, string>;
+
+export const enumMappings: Record<keyof FoodPlace, EnumMapping> = {
   place_type: {
     RESTAURANT: "Restaurant",
     HAWKER_STALL: "Hawker stall",
@@ -31,4 +33,4 @@ export const enumMappings: Record<keyof FoodPlace, any> = {
     WEST: "West",
     ISLANDWIDE: "Islandwide",
   },
-};
+} as Record<keyof FoodPlace, EnumMapping>;
