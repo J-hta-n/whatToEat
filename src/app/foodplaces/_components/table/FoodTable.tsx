@@ -1,31 +1,25 @@
+import { enumMappings } from "@/../prisma/enumMappings";
+import { FoodPlace } from "@prisma/client";
 import {
+  Flex,
+  IconButton,
   Table,
   TableColumnHeaderCell,
-  IconButton,
-  Flex,
 } from "@radix-ui/themes";
 import Link from "next/link";
-import React from "react";
-import {
-  MdArrowDownward,
-  MdArrowUpward,
-  MdOutlineModeEdit,
-} from "react-icons/md";
-import { enumMappings } from "@/../prisma/enumMappings";
-import DeleteDialog from "./DeleteDialog";
-import { FoodPlace } from "@prisma/client";
-import { columnVals, columns } from "./TableConfig";
+import { MdArrowUpward, MdOutlineModeEdit } from "react-icons/md";
 import { FoodQuery } from "../../page";
-import { orderBy } from "lodash";
-import { useSearchParams } from "next/navigation";
+import DeleteDialog from "./DeleteDialog";
+import { columns } from "./TableConfig";
 import { isColSorted, setNewSortQuery } from "./functions";
 
 interface Props {
   searchParams: FoodQuery; // used to pass back current search params
   foodPlaces: FoodPlace[];
+  idOffset: number; // start id offset to account for different pages
 }
 
-const FoodTable = ({ searchParams, foodPlaces }: Props) => {
+const FoodTable = ({ searchParams, foodPlaces, idOffset }: Props) => {
   return (
     <Table.Root>
       <Table.Header>
@@ -59,7 +53,7 @@ const FoodTable = ({ searchParams, foodPlaces }: Props) => {
       <Table.Body>
         {foodPlaces.map((place, i) => (
           <Table.Row key={place.id}>
-            <Table.Cell>{i + 1}</Table.Cell>
+            <Table.Cell>{i + 1 + idOffset}</Table.Cell>
             {columns.map((col) => (
               <Table.Cell key={col.value}>
                 {enumMappings[col.value]

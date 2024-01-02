@@ -1,8 +1,6 @@
 import React from "react";
 import { FoodQuery } from "../../page";
 import { Button, Flex, Link } from "@radix-ui/themes";
-import FilterPlaceType from "./FilterPlaceType";
-import FilterRegion from "./FilterRegion";
 import FilterSelect from "./FilterSelect";
 import { PlaceType, Region } from "@prisma/client";
 

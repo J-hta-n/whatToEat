@@ -21,7 +21,7 @@ export function dupKeyMethod(searchParams: FoodQuery) {
 export function buildWhereQuery(searchParams: FoodQuery) {
   return Object.fromEntries(
     Object.entries(searchParams)
-      .filter(([key]) => key !== "sortBy")
+      .filter(([key]) => key !== "sortBy" && key !== "page")
       .map(([key, value]) => [key, { in: value }])
   );
 }

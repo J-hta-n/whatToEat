@@ -42,6 +42,8 @@ export default function FilterSelect<T extends EnumTypes>({
         } else {
           params.set(enumKey, selectedOptions.join(","));
         }
+        // Rmb to remove page filter too
+        params.delete("page");
         router.push(
           // Remove all search params if empty
           params.toString() ? `/foodplaces?${params.toString()}` : "/foodplaces"
