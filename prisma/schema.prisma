@@ -11,15 +11,18 @@ datasource db {
 }
 
 model FoodPlace {
-  id              Int       @id @default(autoincrement())
-  place_name      String    @db.VarChar(255)
-  place_type      PlaceType @default(RESTAURANT)
-  tried_before    Boolean   @default(false)
-  lb_cost         Int?      @default(1)
-  ub_cost         Int?      @default(20)
-  personal_rating Int?      @default(0)
-  google_rating   Int?      @default(0)
-  region          Region?   @default(ISLANDWIDE)
+  id              Int                   @id @default(autoincrement())
+  place_name      String                @db.VarChar(100)
+  place_type      PlaceType             @default(RESTAURANT)
+  tried_before    Boolean               @default(false)
+  lb_cost         Int?                  @default(1)
+  ub_cost         Int?                  @default(20)
+  personal_rating Int?                  @default(0)
+  google_rating   Int?                  @default(0)
+  region          Region?               @default(ISLANDWIDE)
+  cuisines        FoodPlaceByCuisine[]
+  locations       FoodPlaceByLocation[]
+  tags            FoodPlaceByTag[]
 }
 
 enum PlaceType {
@@ -36,4 +39,56 @@ enum Region {
   CENTRAL
   WEST
   ISLANDWIDE
+}
+
+// TODO: 
+
+// 2. Add junction tables for 
+
+// Then run npx prisma migrate dev, "add cuisine, location, tag models and junction models";
+// Models for Cuisine, Location, and Tag 
+model Cuisine {
+  id      Int                  @id @default(autoincrement())
+  cuisine String               @db.VarChar(100)
+  places  FoodPlaceByCuisine[]
+}
+
+model Location {
+  id      Int                   @id @default(autoincrement())
+  name    String                @db.VarChar(100)
+  type    String                @db.VarChar(50)
+  region  Region
+  address String                @db.VarChar(255)
+  places  FoodPlaceByLocation[]
+}
+
+model Tag {
+  id     Int              @id @default(autoincrement())
+  tag    String           @db.VarChar(100)
+  places FoodPlaceByTag[]
+}
+
+// Junction Tables: FoodPlaceByCuisine, FoodPlaceByLocation, and FoodPlaceByTag
+model FoodPlaceByCuisine {
+  id         Int       @id @default(autoincrement())
+  place      FoodPlace @relation(fields: [place_id], references: [id])
+  place_id   Int
+  cuisine    Cuisine   @relation(fields: [cuisine_id], references: [id])
+  cuisine_id Int
+}
+
+model FoodPlaceByLocation {
+  id          Int       @id @default(autoincrement())
+  place       FoodPlace @relation(fields: [place_id], references: [id])
+  place_id    Int
+  location    Location  @relation(fields: [location_id], references: [id])
+  location_id Int
+}
+
+model FoodPlaceByTag {
+  id       Int       @id @default(autoincrement())
+  place    FoodPlace @relation(fields: [place_id], references: [id])
+  place_id Int
+  tag      Tag       @relation(fields: [tag_id], references: [id])
+  tag_id   Int
 }
