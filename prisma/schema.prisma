@@ -7,7 +7,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = "postgresql://jh:randompassword@localhost:5432/whattoeat?schema=public"
 }
 
 model FoodPlace {
