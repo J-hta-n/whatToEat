@@ -41,11 +41,6 @@ enum Region {
   ISLANDWIDE
 }
 
-// TODO: 
-
-// 2. Add junction tables for 
-
-// Then run npx prisma migrate dev, "add cuisine, location, tag models and junction models";
 // Models for Cuisine, Location, and Tag 
 model Cuisine {
   id      Int                  @id @default(autoincrement())
