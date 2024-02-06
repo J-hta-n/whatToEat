@@ -9,7 +9,7 @@ const SimpleList = ({ items }: Props) => {
   return (
     <ul>
       {items.map((item) => (
-        <li>{item.place_name}</li>
+        <li key={item.id}>{item.place_name}</li>
       ))}
     </ul>
   );
