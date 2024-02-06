@@ -35,6 +35,7 @@ export function buildWhereQuery(searchParams: FoodQuery) {
 export function concatMethod(searchParams: FoodQuery) {
   Object.entries(searchParams).forEach(([key, value]) => {
     if (Array.isArray(value)) return;
+    // @ts-ignore
     searchParams[key] = value.split(",");
   });
 }
@@ -77,6 +78,7 @@ export function getOrderBy(searchParams: FoodQuery) {
   if (!Array.isArray(colVals)) {
     return [{ [colVals]: "asc" }];
   }
+  // @ts-ignore
   orderBy = colVals.map((colVal) => ({
     [colVal]: "asc",
   }));

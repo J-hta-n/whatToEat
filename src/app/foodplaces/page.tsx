@@ -24,6 +24,7 @@ const FoodPlacesPage = async ({ searchParams }: Props) => {
   const curPage = searchParams.page ? parseInt(searchParams.page) : 1;
   const skipCount = (curPage - 1) * PAGE_SIZE;
   const foodPlaces: FoodPlace[] = await database.foodPlace.findMany({
+    // @ts-ignore
     orderBy, // orderBy is of type {keyof FoodPlace, "asc" | "dsc"}[]
     where,
     skip: skipCount,
