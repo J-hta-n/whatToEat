@@ -1,6 +1,6 @@
 import { Flex } from "@radix-ui/themes";
 import React from "react";
-import NavBarLinks from "./_components/NavBarLinks";
+import NavBarLinks from "./NavBarLinks";
 
 const NavBar = () => {
   return (
