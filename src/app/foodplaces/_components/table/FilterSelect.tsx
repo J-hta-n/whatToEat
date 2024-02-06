@@ -26,6 +26,7 @@ export default function FilterSelect<T extends EnumTypes>({
 }: Props) {
   let options: { value: T; label: string }[] = new Array();
   // Populate all the enum options for the Select component
+  // @ts-ignore
   Object.entries(enumMappings[enumKey]).forEach(([val, label]: [T, string]) => {
     options.push({ value: val, label: label });
   });
@@ -35,6 +36,7 @@ export default function FilterSelect<T extends EnumTypes>({
   return (
     <Select
       onChange={(event) => {
+        // @ts-ignore
         const selectedOptions: T[] = event.map((obj) => obj.value);
         const params = new URLSearchParams(searchParams);
         if (selectedOptions.length === 0) {
