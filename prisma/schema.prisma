@@ -5,6 +5,7 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// Database instance is hosted using AWS RDS (https://youtu.be/I_fTQTsz2nQ?si=mIBexc3O5RkWmYM4)
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
