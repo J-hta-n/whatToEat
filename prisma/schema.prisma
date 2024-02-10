@@ -22,6 +22,7 @@ model FoodPlace {
   google_rating   Int?                  @default(0)
   region          Region?               @default(ISLANDWIDE)
   cuisines        FoodPlaceByCuisine[]
+  dishes          FoodPlaceByDish[]
   locations       FoodPlaceByLocation[]
   tags            FoodPlaceByTag[]
 }
@@ -42,11 +43,17 @@ enum Region {
   ISLANDWIDE
 }
 
-// Models for Cuisine, Location, and Tag 
+// Models for Cuisine, Dishes, Location, Tag, and Categories 
 model Cuisine {
   id      Int                  @id @default(autoincrement())
   cuisine String               @db.VarChar(100)
   places  FoodPlaceByCuisine[]
+}
+
+model Dish {
+  id     Int               @id @default(autoincrement())
+  name   String            @db.VarChar(100)
+  places FoodPlaceByDish[]
 }
 
 model Location {
@@ -59,18 +66,34 @@ model Location {
 }
 
 model Tag {
-  id     Int              @id @default(autoincrement())
-  tag    String           @db.VarChar(100)
-  places FoodPlaceByTag[]
+  id          Int              @id @default(autoincrement())
+  tag         String           @db.VarChar(100)
+  category    Category         @relation(fields: [category_id], references: [id])
+  category_id Int
+  places      FoodPlaceByTag[]
 }
 
-// Junction Tables: FoodPlaceByCuisine, FoodPlaceByLocation, and FoodPlaceByTag
+model Category {
+  id       Int    @id @default(autoincrement())
+  category String @db.VarChar(100)
+  tags     Tag[]
+}
+
+// Junction Tables: FoodPlaceByCuisine, FoodPlaceByDish, FoodPlaceByLocation, and FoodPlaceByTag
 model FoodPlaceByCuisine {
   id         Int       @id @default(autoincrement())
   place      FoodPlace @relation(fields: [place_id], references: [id])
   place_id   Int
   cuisine    Cuisine   @relation(fields: [cuisine_id], references: [id])
   cuisine_id Int
+}
+
+model FoodPlaceByDish {
+  id       Int       @id @default(autoincrement())
+  place    FoodPlace @relation(fields: [place_id], references: [id])
+  place_id Int
+  dish     Dish      @relation(fields: [dish_id], references: [id])
+  dish_id  Int
 }
 
 model FoodPlaceByLocation {
