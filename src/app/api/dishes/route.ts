@@ -1,10 +1,10 @@
 import database from "@/prisma";
-import { TFoodPlaceSchema, foodPlaceSchema } from "@/validationSchemas";
+import { TDishSchema, dishSchema } from "@/validationSchemas";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-  const body: TFoodPlaceSchema = await req.json();
-  const validation = foodPlaceSchema.safeParse(body);
+  const body: TDishSchema = await req.json();
+  const validation = dishSchema.safeParse(body);
   if (!validation.success) {
     let zodErrors = {};
     validation.error.errors.forEach((error) => {
@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: zodErrors }, { status: 400 });
   }
   try {
-    const newFoodPlace = await database.foodPlace.create({
+    const newDish = await database.dish.create({
       data: {
         ...body,
       },

@@ -17,9 +17,9 @@ interface Props {
 }
 
 const Pagination = ({ curPage, totalPages }: Props) => {
-  if (curPage < 1 || curPage > totalPages) return null;
   const router = useRouter();
   const searchParams = useSearchParams();
+  if (curPage < 1 || curPage > totalPages) return null;
   const goToPage = (page: number) => {
     const params = new URLSearchParams(searchParams);
     params.set("page", page.toString());

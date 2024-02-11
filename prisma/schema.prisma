@@ -5,21 +5,26 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// Database instance is hosted using AWS RDS (https://youtu.be/I_fTQTsz2nQ?si=mIBexc3O5RkWmYM4)
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model FoodPlace {
-  id              Int       @id @default(autoincrement())
-  place_name      String    @db.VarChar(255)
-  place_type      PlaceType @default(RESTAURANT)
-  tried_before    Boolean   @default(false)
-  lb_cost         Int?      @default(1)
-  ub_cost         Int?      @default(20)
-  personal_rating Int?      @default(0)
-  google_rating   Int?      @default(0)
-  region          Region?   @default(ISLANDWIDE)
+  id              Int                   @id @default(autoincrement())
+  place_name      String                @db.VarChar(100)
+  place_type      PlaceType             @default(RESTAURANT)
+  tried_before    Boolean               @default(false)
+  lb_cost         Int?                  @default(1)
+  ub_cost         Int?                  @default(20)
+  personal_rating Int?                  @default(0)
+  google_rating   Int?                  @default(0)
+  region          Region?               @default(ISLANDWIDE)
+  cuisines        FoodPlaceByCuisine[]
+  dishes          FoodPlaceByDish[]
+  locations       FoodPlaceByLocation[]
+  tags            FoodPlaceByTag[]
 }
 
 enum PlaceType {
@@ -36,4 +41,73 @@ enum Region {
   CENTRAL
   WEST
   ISLANDWIDE
+}
+
+// Models for Cuisine, Dishes, Location, Tag, and Categories 
+model Cuisine {
+  id      Int                  @id @default(autoincrement())
+  cuisine String               @db.VarChar(100)
+  places  FoodPlaceByCuisine[]
+}
+
+model Dish {
+  id     Int               @id @default(autoincrement())
+  name   String            @db.VarChar(100)
+  places FoodPlaceByDish[]
+}
+
+model Location {
+  id      Int                   @id @default(autoincrement())
+  name    String                @db.VarChar(100)
+  type    String                @db.VarChar(50)
+  region  Region
+  address String                @db.VarChar(255)
+  places  FoodPlaceByLocation[]
+}
+
+model Tag {
+  id          Int              @id @default(autoincrement())
+  tag         String           @db.VarChar(100)
+  category    Category?         @relation(fields: [category_id], references: [id])
+  category_id Int?   
+  places      FoodPlaceByTag[]
+}
+
+model Category {
+  id       Int    @id @default(autoincrement())
+  category String @db.VarChar(100)
+  tags     Tag[]
+}
+
+// Junction Tables: FoodPlaceByCuisine, FoodPlaceByDish, FoodPlaceByLocation, and FoodPlaceByTag
+model FoodPlaceByCuisine {
+  id         Int       @id @default(autoincrement())
+  place      FoodPlace @relation(fields: [place_id], references: [id])
+  place_id   Int
+  cuisine    Cuisine   @relation(fields: [cuisine_id], references: [id])
+  cuisine_id Int
+}
+
+model FoodPlaceByDish {
+  id       Int       @id @default(autoincrement())
+  place    FoodPlace @relation(fields: [place_id], references: [id])
+  place_id Int
+  dish     Dish      @relation(fields: [dish_id], references: [id])
+  dish_id  Int
+}
+
+model FoodPlaceByLocation {
+  id          Int       @id @default(autoincrement())
+  place       FoodPlace @relation(fields: [place_id], references: [id])
+  place_id    Int
+  location    Location  @relation(fields: [location_id], references: [id])
+  location_id Int
+}
+
+model FoodPlaceByTag {
+  id       Int       @id @default(autoincrement())
+  place    FoodPlace @relation(fields: [place_id], references: [id])
+  place_id Int
+  tag      Tag       @relation(fields: [tag_id], references: [id])
+  tag_id   Int
 }

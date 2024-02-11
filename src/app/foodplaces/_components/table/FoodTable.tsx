@@ -57,7 +57,8 @@ const FoodTable = ({ searchParams, foodPlaces, idOffset }: Props) => {
             {columns.map((col) => (
               <Table.Cell key={col.value}>
                 {enumMappings[col.value]
-                  ? enumMappings[col.value][place[col.value]]
+                  ? // @ts-ignore
+                    enumMappings[col.value][place[col.value]]
                   : place[col.value]}
               </Table.Cell>
             ))}

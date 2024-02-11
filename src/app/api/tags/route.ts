@@ -1,10 +1,10 @@
 import database from "@/prisma";
-import { TFoodPlaceSchema, foodPlaceSchema } from "@/validationSchemas";
+import { TTagSchema, tagSchema } from "@/validationSchemas";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-  const body: TFoodPlaceSchema = await req.json();
-  const validation = foodPlaceSchema.safeParse(body);
+  const body: TTagSchema = await req.json();
+  const validation = tagSchema.safeParse(body);
   if (!validation.success) {
     let zodErrors = {};
     validation.error.errors.forEach((error) => {
@@ -13,10 +13,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: zodErrors }, { status: 400 });
   }
   try {
-    const newFoodPlace = await database.foodPlace.create({
-      data: {
-        ...body,
-      },
+    const newTag = await database.tag.create({
+      data: { tag: body.tag },
     });
     return NextResponse.json({ status: 201 });
   } catch (e) {

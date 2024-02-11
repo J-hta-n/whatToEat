@@ -8,12 +8,13 @@ import {
 } from "./_components/table/functions";
 import FilterPanel from "./_components/table/FilterPanel";
 import Pagination from "../_components/Pagination";
+import { Heading, Text } from "@radix-ui/themes";
 
 interface Props {
   searchParams: FoodQuery;
 }
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 20;
 
 // To prevent the page component from becoming a client component, lift all states
 // to the URL instead, hence tapping on the searchParams state
@@ -24,6 +25,7 @@ const FoodPlacesPage = async ({ searchParams }: Props) => {
   const curPage = searchParams.page ? parseInt(searchParams.page) : 1;
   const skipCount = (curPage - 1) * PAGE_SIZE;
   const foodPlaces: FoodPlace[] = await database.foodPlace.findMany({
+    // @ts-ignore
     orderBy, // orderBy is of type {keyof FoodPlace, "asc" | "dsc"}[]
     where,
     skip: skipCount,
@@ -34,6 +36,16 @@ const FoodPlacesPage = async ({ searchParams }: Props) => {
 
   return (
     <>
+      <div className="text-center mb-10">
+        <Heading mb="1">Food Places Database</Heading>
+        <Text size="2" color="grass">
+          Feel free to create, modify, and delete the list of food places here.
+          Places can be tagged to according to various categories in the
+          {"'Explore'"} page.
+          <br />
+          [Coming soon: Being able to tag places directly from this page]
+        </Text>
+      </div>
       <FilterPanel searchParams={searchParams} />
       <div className="mt-5"></div>
       <FoodTable

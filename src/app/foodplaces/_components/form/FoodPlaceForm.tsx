@@ -18,9 +18,10 @@ import { inputFields } from "./InputFields";
 
 interface Props {
   existingFoodPlace?: FoodPlace;
+  setIsDialogOpen?: (open: boolean) => void;
 }
 
-const FoodPlaceForm = ({ existingFoodPlace }: Props) => {
+const FoodPlaceForm = ({ existingFoodPlace, setIsDialogOpen }: Props) => {
   // reason isSubmitting from formState is not used is bcos we
   // only want the spinner to stop after the whole api function
   // is done, not just after submitting on the client side, so
@@ -65,6 +66,7 @@ const FoodPlaceForm = ({ existingFoodPlace }: Props) => {
       toast.error(`Error: ${e}`);
     }
     setIsSubmitting(false);
+    setIsDialogOpen ? setIsDialogOpen(false) : undefined;
   };
   return (
     <div className="flex justify-center">
@@ -88,7 +90,14 @@ const FoodPlaceForm = ({ existingFoodPlace }: Props) => {
         <div className="pt-10" />
         <Flex gap="9" justify="center">
           <Link href="/foodplaces">
-            <Button type="button">cancel</Button>
+            <Button
+              type="button"
+              onClick={() =>
+                setIsDialogOpen ? setIsDialogOpen(false) : undefined
+              }
+            >
+              cancel
+            </Button>
           </Link>
           <Button type="submit" disabled={isSubmitting}>
             {existingFoodPlace ? "Update" : "Submit"}
