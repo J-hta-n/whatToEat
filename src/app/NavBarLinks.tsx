@@ -13,16 +13,16 @@ const NavBarLinks = () => {
       page: "Home",
     },
     {
-      href: "/choose",
-      page: "Choose",
+      href: "/explore",
+      page: "Explore",
     },
+    // {
+    //   href: "/choose",
+    //   page: "Choose",
+    // },
     {
       href: "/foodplaces",
       page: "Food Places",
-    },
-    {
-      href: "/explore",
-      page: "Explore",
     },
   ];
   return (

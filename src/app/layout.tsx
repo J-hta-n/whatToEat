@@ -24,7 +24,7 @@ export default function RootLayout({
         <ChakraProvider>
           <Theme>
             <NavBar />
-            <div className="p-5">{children}</div>
+            <div className="p-5 ml-20 mr-20">{children}</div>
           </Theme>
         </ChakraProvider>
       </body>
