@@ -1,4 +1,4 @@
-import { Button, Flex, IconButton } from "@radix-ui/themes";
+import { Button, Flex, IconButton, Strong, Text } from "@radix-ui/themes";
 import Link from "next/link";
 import React, { PropsWithChildren, ReactNode } from "react";
 import { MdArrowBack } from "react-icons/md";
@@ -6,17 +6,22 @@ import { MdArrowBack } from "react-icons/md";
 interface Props {
   backHref: string;
   children: ReactNode;
+  title: string;
 }
 
-const SubPage = ({ backHref, children }: Props) => {
+const SubPage = ({ backHref, children, title }: Props) => {
   return (
-    <Flex direction="column" gap="3">
-      <IconButton className="w-12" radius="full" variant="ghost">
-        <Link href={backHref}>
-          <MdArrowBack />
-        </Link>
-      </IconButton>
-      {children}
+    <Flex direction="row" gap="3">
+      <Link href={backHref}>
+        <IconButton className="w-20" radius="full" variant="ghost">
+          <MdArrowBack className="m-2" />
+          <Text>Back</Text>
+        </IconButton>
+      </Link>
+      <Flex direction="column" gap="3" className="flex-grow">
+        <Strong className="text-center">{title}</Strong>
+        {children}
+      </Flex>
     </Flex>
   );
 };
