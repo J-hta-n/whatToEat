@@ -60,9 +60,9 @@ const ExplorePage = () => {
         align="center"
         justify="center"
       >
-        {options.map((option) => {
+        {options.map((option, i) => {
           return (
-            <Link href={option.href}>
+            <Link key={i} href={option.href}>
               <Card className="w-72">
                 <Inset>
                   <img

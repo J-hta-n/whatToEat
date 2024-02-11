@@ -23,7 +23,7 @@ const HomePage = async () => {
           <Link href="/foodplaces">
             <Button size="4" className="hover:cursor-pointer">
               <p className="lg:text-lg md:text-base sm:text-xs">
-                Let's get started!
+                {"Let's get started!"}
               </p>
             </Button>
           </Link>

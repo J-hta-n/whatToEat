@@ -1,6 +1,5 @@
 import database from "@/prisma";
 import { TFoodPlaceSchema, foodPlaceSchema } from "@/validationSchemas";
-import { FoodPlace } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
