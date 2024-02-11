@@ -1,12 +1,12 @@
 import database from "@/prisma";
 import React from "react";
 import SubPage from "../_components/SubPage";
-import { Button, Card, Flex, Text } from "@radix-ui/themes";
+import { Card, Flex, Text } from "@radix-ui/themes";
 import Link from "next/link";
 import AddTagDialog from "./_components/AddTagDialog";
 import EditTagDialog from "./_components/EditTagDialog";
 import { Toaster } from "react-hot-toast";
-import DeleteTagDialog from "./_components/DeleteTagDialog";
+import DeleteDialog from "../_components/DeleteDialog";
 
 const TagsPage = async () => {
   // TODO: GET all tags and load them
@@ -16,10 +16,6 @@ const TagsPage = async () => {
   // For delete, simply remove the entries in the junction table first with the tag id,
   // then remove the tag.
   // Here, we would to make an api call for that
-
-  const deleteTag = async () => {
-    // make the api DELETE here
-  };
 
   // TODO: Display the tags in card form
   return (
@@ -48,7 +44,10 @@ const TagsPage = async () => {
                   <Text>{tag.tag}</Text>
                 </Link>
                 <EditTagDialog tag={tag} />
-                <DeleteTagDialog tag={tag} />
+                <DeleteDialog
+                  apiUrl={`/api/tags/${tag.id}`}
+                  entryName={tag.tag}
+                />
               </Flex>
             </Card>
           );

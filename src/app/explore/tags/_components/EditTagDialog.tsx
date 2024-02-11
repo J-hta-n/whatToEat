@@ -84,14 +84,6 @@ const EditTagDialog = ({ tag }: Props) => {
             )}
 
             <Flex gap="3" mt="3" justify="end">
-              <AlertDialog.Root>
-                <AlertDialog.Trigger>
-                  <Button>Delete</Button>
-                </AlertDialog.Trigger>
-                <AlertDialog.Content>
-                  <AlertDialog.Title>Delete tag</AlertDialog.Title>
-                </AlertDialog.Content>
-              </AlertDialog.Root>
               <Button
                 type="button"
                 onClick={() => setIsDialogOpen(false)}
