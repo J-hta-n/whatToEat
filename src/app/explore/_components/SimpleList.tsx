@@ -9,7 +9,9 @@ interface Props {
 
 const SimpleList = ({ items, name }: Props) => {
   return items === null || items.length === 0 ? (
-    <Text className="text-center">Oops, no food places found for '{name}'</Text>
+    <Text className="text-center">
+      Oops, no food places found for {"'{name}'"}
+    </Text>
   ) : (
     <>
       <Text className="text-center underline">{name}</Text>
