@@ -1,4 +1,8 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Intro
+WhatToEat is a web app which allows users to organise their favourite food places by various useful categories, so that in future, they can filter these places more efficiently based on those categories to aid in deciding where and what to eat.
+
+This project uses [Next.js](https://nextjs.org/) with Radix UI on the frontend, as well as for the backend APIs, together with Prisma ORM, Zod Data Validation, and PostgreSQL database (hosted on AWS RDS).
+
 
 ## Getting Started
 
