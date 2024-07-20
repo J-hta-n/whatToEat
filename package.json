@@ -20,7 +20,7 @@
     "@prisma/client": "^5.7.1",
     "@radix-ui/themes": "^2.0.3",
     "framer-motion": "^10.16.16",
-    "next": "14.0.4",
+    "next": "^14.2.5",
     "postcss-import": "^16.1.0",
     "prisma": "^5.7.1",
     "react": "^18",
