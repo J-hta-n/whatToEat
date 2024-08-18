@@ -32,13 +32,13 @@ export const tagSchema = z.object({
 export type TTagSchema = z.infer<typeof tagSchema>;
 
 export const dishSchema = z.object({
-  name: z.string().min(1, "Tag name is required").max(255),
+  name: z.string().min(1, "Dish name is required").max(255),
 });
 
 export type TDishSchema = z.infer<typeof dishSchema>;
 
 export const cuisineSchema = z.object({
-  cuisine: z.string().min(1, "Tag name is required").max(255),
+  cuisine: z.string().min(1, "Cuisine name is required").max(255),
 });
 
 export type TCuisineSchema = z.infer<typeof cuisineSchema>;

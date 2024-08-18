@@ -68,8 +68,8 @@ model Location {
 model Tag {
   id          Int              @id @default(autoincrement())
   tag         String           @db.VarChar(100)
-  category    Category?         @relation(fields: [category_id], references: [id])
-  category_id Int?   
+  category    Category?        @relation(fields: [category_id], references: [id])
+  category_id Int?
   places      FoodPlaceByTag[]
 }
 
@@ -81,33 +81,37 @@ model Category {
 
 // Junction Tables: FoodPlaceByCuisine, FoodPlaceByDish, FoodPlaceByLocation, and FoodPlaceByTag
 model FoodPlaceByCuisine {
-  id         Int       @id @default(autoincrement())
-  place      FoodPlace @relation(fields: [place_id], references: [id])
+  place      FoodPlace @relation(fields: [place_id], references: [id], onDelete: Cascade)
   place_id   Int
-  cuisine    Cuisine   @relation(fields: [cuisine_id], references: [id])
+  cuisine    Cuisine   @relation(fields: [cuisine_id], references: [id], onDelete: Cascade)
   cuisine_id Int
+
+  @@id([place_id, cuisine_id])
 }
 
 model FoodPlaceByDish {
-  id       Int       @id @default(autoincrement())
-  place    FoodPlace @relation(fields: [place_id], references: [id])
+  place    FoodPlace @relation(fields: [place_id], references: [id], onDelete: Cascade)
   place_id Int
-  dish     Dish      @relation(fields: [dish_id], references: [id])
+  dish     Dish      @relation(fields: [dish_id], references: [id], onDelete: Cascade)
   dish_id  Int
+
+  @@id([place_id, dish_id])
 }
 
 model FoodPlaceByLocation {
-  id          Int       @id @default(autoincrement())
-  place       FoodPlace @relation(fields: [place_id], references: [id])
+  place       FoodPlace @relation(fields: [place_id], references: [id], onDelete: Cascade)
   place_id    Int
-  location    Location  @relation(fields: [location_id], references: [id])
+  location    Location  @relation(fields: [location_id], references: [id], onDelete: Cascade)
   location_id Int
+
+  @@id([place_id, location_id])
 }
 
 model FoodPlaceByTag {
-  id       Int       @id @default(autoincrement())
-  place    FoodPlace @relation(fields: [place_id], references: [id])
+  place    FoodPlace @relation(fields: [place_id], references: [id], onDelete: Cascade)
   place_id Int
-  tag      Tag       @relation(fields: [tag_id], references: [id])
+  tag      Tag       @relation(fields: [tag_id], references: [id], onDelete: Cascade)
   tag_id   Int
+
+  @@id([place_id, tag_id])
 }
