@@ -1,9 +1,9 @@
 import React from "react";
 import { FoodQuery } from "../../page";
-import { Button, Dialog, Flex, Link } from "@radix-ui/themes";
+import { Flex } from "@radix-ui/themes";
 import FilterSelect from "./FilterSelect";
 import { PlaceType, Region } from "@prisma/client";
-import AddDialog from "./AddDialog";
+import AddNewFoodPlaceDialog from "./AddNewFoodPlaceDialog";
 
 interface Props {
   searchParams: FoodQuery;
@@ -16,7 +16,7 @@ const FilterPanel = ({ searchParams }: Props) => {
         {/* <Link href="/foodplaces/add">
           <Button>Add new place</Button>
         </Link> */}
-        <AddDialog />
+        <AddNewFoodPlaceDialog />
       </div>
       <div className="w-1/5">
         <FilterSelect<PlaceType>
