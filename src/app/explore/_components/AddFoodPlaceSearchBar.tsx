@@ -2,9 +2,7 @@
 
 import TextField from "@mui/material/TextField";
 import { useRouter } from "next/navigation";
-import Autocomplete, {
-  AutocompleteChangeDetails,
-} from "@mui/material/Autocomplete";
+import Autocomplete from "@mui/material/Autocomplete";
 import { FoodPlace } from "@prisma/client";
 import { JunctionTableEndpoint } from "../../../../prisma/dataTypes";
 import { TFoodPlaceByExploreSchema } from "@/validationSchemas";
@@ -22,13 +20,10 @@ export default function AddFoodPlaceSearchBar({
   junctionTable,
 }: Props) {
   const router = useRouter();
-  const handleChange = async (
-    reason: string,
-    details: AutocompleteChangeDetails<FoodPlace> | undefined
-  ) => {
+  const handleChange = async (value: FoodPlace | null, reason: string) => {
     // Make API POST request here
-    if (reason === "selectOption" && details) {
-      const target: FoodPlace = details["option"];
+    if (reason === "selectOption" && value) {
+      const target: FoodPlace = value;
       const data: TFoodPlaceByExploreSchema = {
         foodplace_id: target["id"],
         explore_id: exploreId,
@@ -46,8 +41,9 @@ export default function AddFoodPlaceSearchBar({
           );
           return;
         }
-        // TODO: Find out why toast doesn't appear
-        toast.success("Food place added");
+        toast.success("Food place added", {
+          id: "addfoodplace",
+        });
         router.refresh();
       } catch (e) {
         toast.error(`Error: ${e}`);
@@ -59,11 +55,10 @@ export default function AddFoodPlaceSearchBar({
   return (
     <Autocomplete
       key="1"
-      inputValue=""
       disableCloseOnSelect
       options={excludedFoodPlaces}
-      onChange={(_event, _value, reason, details) => {
-        handleChange(reason, details);
+      onChange={(_event, value, reason) => {
+        handleChange(value, reason);
       }}
       sx={{ width: 300 }}
       renderInput={(params) => <TextField {...params} label="Add Food Place" />}

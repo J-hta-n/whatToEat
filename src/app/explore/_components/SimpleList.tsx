@@ -40,7 +40,9 @@ const SimpleList = ({ items, title, exploreId, junctionTable }: Props) => {
         return;
       }
       // TODO: Find out why this doesn't work
-      toast.success("Food place removed");
+      toast.success("Food place removed", {
+        id: "removefoodplace",
+      });
       router.refresh();
     } catch (e) {
       toast.error(`Error: ${e}`);
