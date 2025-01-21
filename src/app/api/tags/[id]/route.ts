@@ -2,11 +2,11 @@ import database from "@/prisma";
 import { TTagSchema, tagSchema } from "@/validationSchemas";
 import { NextRequest, NextResponse } from "next/server";
 
-interface Props {
+interface RouteParams {
   params: { id: string };
 }
 
-export async function PATCH(req: NextRequest, { params }: Props) {
+export async function PATCH(req: NextRequest, { params }: RouteParams) {
   const body: TTagSchema = await req.json();
   const validation = tagSchema.safeParse(body);
   if (!validation.success) {
@@ -37,7 +37,7 @@ export async function PATCH(req: NextRequest, { params }: Props) {
   }
 }
 
-export async function DELETE(req: NextRequest, { params }: Props) {
+export async function DELETE(req: NextRequest, { params }: RouteParams) {
   try {
     const tagId = parseInt(params.id);
     const tag = await database.tag.findUnique({

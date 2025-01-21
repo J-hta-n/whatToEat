@@ -2,11 +2,11 @@ import database from "@/prisma";
 import { TDishSchema, dishSchema } from "@/validationSchemas";
 import { NextRequest, NextResponse } from "next/server";
 
-interface Props {
+interface RouteParams {
   params: { id: string };
 }
 
-export async function PATCH(req: NextRequest, { params }: Props) {
+export async function PATCH(req: NextRequest, { params }: RouteParams) {
   const body: TDishSchema = await req.json();
   const validation = dishSchema.safeParse(body);
   if (!validation.success) {
@@ -37,7 +37,7 @@ export async function PATCH(req: NextRequest, { params }: Props) {
   }
 }
 
-export async function DELETE(req: NextRequest, { params }: Props) {
+export async function DELETE(req: NextRequest, { params }: RouteParams) {
   try {
     const dishId = parseInt(params.id);
     const dish = await database.dish.findUnique({
