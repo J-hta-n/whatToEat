@@ -3,7 +3,7 @@ import { TCuisineSchema, cuisineSchema } from "@/validationSchemas";
 import { NextRequest, NextResponse } from "next/server";
 
 interface Props {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export async function PATCH(req: NextRequest, { params }: Props) {
@@ -17,7 +17,8 @@ export async function PATCH(req: NextRequest, { params }: Props) {
     return NextResponse.json({ error: zodErrors }, { status: 400 });
   }
   try {
-    const cuisineId = parseInt(params.id);
+    const routeParams = await params;
+    const cuisineId = parseInt(routeParams.id);
     const cuisine = await database.cuisine.findUnique({
       where: { id: cuisineId },
     });
@@ -42,7 +43,8 @@ export async function PATCH(req: NextRequest, { params }: Props) {
 
 export async function DELETE(req: NextRequest, { params }: Props) {
   try {
-    const cuisineId = parseInt(params.id);
+    const routeParams = await params;
+    const cuisineId = parseInt(routeParams.id);
     const cuisine = await database.cuisine.findUnique({
       where: { id: cuisineId },
     });

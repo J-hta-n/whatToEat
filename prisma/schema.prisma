@@ -85,15 +85,17 @@ model FoodPlaceByCuisine {
   place_id   Int
   cuisine    Cuisine   @relation(fields: [cuisine_id], references: [id], onDelete: Cascade)
   cuisine_id Int
+  created_at DateTime  @default(now())
 
   @@id([place_id, cuisine_id])
 }
 
 model FoodPlaceByDish {
-  place    FoodPlace @relation(fields: [place_id], references: [id], onDelete: Cascade)
-  place_id Int
-  dish     Dish      @relation(fields: [dish_id], references: [id], onDelete: Cascade)
-  dish_id  Int
+  place      FoodPlace @relation(fields: [place_id], references: [id], onDelete: Cascade)
+  place_id   Int
+  dish       Dish      @relation(fields: [dish_id], references: [id], onDelete: Cascade)
+  dish_id    Int
+  created_at DateTime  @default(now())
 
   @@id([place_id, dish_id])
 }
@@ -103,15 +105,17 @@ model FoodPlaceByLocation {
   place_id    Int
   location    Location  @relation(fields: [location_id], references: [id], onDelete: Cascade)
   location_id Int
+  created_at  DateTime  @default(now())
 
   @@id([place_id, location_id])
 }
 
 model FoodPlaceByTag {
-  place    FoodPlace @relation(fields: [place_id], references: [id], onDelete: Cascade)
-  place_id Int
-  tag      Tag       @relation(fields: [tag_id], references: [id], onDelete: Cascade)
-  tag_id   Int
+  place      FoodPlace @relation(fields: [place_id], references: [id], onDelete: Cascade)
+  place_id   Int
+  tag        Tag       @relation(fields: [tag_id], references: [id], onDelete: Cascade)
+  tag_id     Int
+  created_at DateTime  @default(now())
 
   @@id([place_id, tag_id])
 }

@@ -11,7 +11,7 @@ import Pagination from "../_components/Pagination";
 import { Heading, Text } from "@radix-ui/themes";
 
 interface Props {
-  searchParams: FoodQuery;
+  searchParams: Promise<FoodQuery>;
 }
 
 const PAGE_SIZE = 20;
@@ -19,10 +19,11 @@ const PAGE_SIZE = 20;
 // To prevent the page component from becoming a client component, lift all states
 // to the URL instead, hence tapping on the searchParams state
 const FoodPlacesPage = async ({ searchParams }: Props) => {
-  concatMethod(searchParams);
-  const orderBy = getOrderBy(searchParams);
-  const where = buildWhereQuery(searchParams);
-  const curPage = searchParams.page ? parseInt(searchParams.page) : 1;
+  const params = await searchParams;
+  concatMethod(params);
+  const orderBy = getOrderBy(params);
+  const where = buildWhereQuery(params);
+  const curPage = params.page ? parseInt(params.page) : 1;
   const skipCount = (curPage - 1) * PAGE_SIZE;
   const foodPlaces: FoodPlace[] = await database.foodPlace.findMany({
     // @ts-ignore
@@ -46,10 +47,10 @@ const FoodPlacesPage = async ({ searchParams }: Props) => {
           [Coming soon: Being able to tag places directly from this page]
         </Text>
       </div>
-      <FilterPanel searchParams={searchParams} />
+      <FilterPanel searchParams={params} />
       <div className="mt-5"></div>
       <FoodTable
-        searchParams={searchParams}
+        searchParams={params}
         foodPlaces={foodPlaces}
         idOffset={skipCount}
       />

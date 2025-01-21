@@ -3,7 +3,7 @@ import { TFoodPlaceSchema, foodPlaceSchema } from "@/validationSchemas";
 import { NextRequest, NextResponse } from "next/server";
 
 interface Props {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export async function PATCH(req: NextRequest, { params }: Props) {
@@ -17,7 +17,8 @@ export async function PATCH(req: NextRequest, { params }: Props) {
     return NextResponse.json({ error: zodErrors }, { status: 400 });
   }
   try {
-    const placeId = parseInt(params.id);
+    const routeParams = await params;
+    const placeId = parseInt(routeParams.id);
     const foodPlace = await database.foodPlace.findUnique({
       where: { id: placeId },
     });
@@ -42,7 +43,8 @@ export async function PATCH(req: NextRequest, { params }: Props) {
 
 export async function DELETE(req: NextRequest, { params }: Props) {
   try {
-    const placeId = parseInt(params.id);
+    const routeParams = await params;
+    const placeId = parseInt(routeParams.id);
     const foodPlace = await database.foodPlace.findUnique({
       where: { id: placeId },
     });

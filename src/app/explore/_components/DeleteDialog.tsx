@@ -24,7 +24,9 @@ const DeleteDialog = ({ apiUrl, entryName }: Props) => {
         );
         return;
       }
-      toast.success("Item deleted successfully");
+      toast.success("Item deleted successfully", {
+        id: "deletedialog",
+      });
       router.refresh();
     } catch (e) {
       toast.error(`Error: ${e}`);

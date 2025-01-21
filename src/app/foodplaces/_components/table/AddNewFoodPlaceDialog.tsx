@@ -4,7 +4,7 @@ import { Button, Dialog } from "@radix-ui/themes";
 import React, { useState } from "react";
 import FoodPlaceForm from "../form/FoodPlaceForm";
 
-const AddDialog = () => {
+const AddNewFoodPlaceDialog = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   return (
@@ -22,4 +22,4 @@ const AddDialog = () => {
   );
 };
 
-export default AddDialog;
+export default AddNewFoodPlaceDialog;

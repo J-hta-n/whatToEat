@@ -5,8 +5,6 @@ import Link from "next/link";
 import React from "react";
 
 const HomePage = async () => {
-  const foodPlaces = await database.foodPlace.findMany();
-
   // HomePage template credits to https://www.tailwindawesome.com/resources/vpn-landing-page
   return (
     <div className="grid grid-flow-row sm:grid-flow-col grid-rows-2 md:grid-rows-1 sm:grid-cols-2 gap-8 py-6 sm:py-16">

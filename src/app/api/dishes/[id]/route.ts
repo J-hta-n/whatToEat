@@ -3,7 +3,7 @@ import { TDishSchema, dishSchema } from "@/validationSchemas";
 import { NextRequest, NextResponse } from "next/server";
 
 interface Props {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export async function PATCH(req: NextRequest, { params }: Props) {
@@ -17,7 +17,8 @@ export async function PATCH(req: NextRequest, { params }: Props) {
     return NextResponse.json({ error: zodErrors }, { status: 400 });
   }
   try {
-    const dishId = parseInt(params.id);
+    const routeParams = await params;
+    const dishId = parseInt(routeParams.id);
     const dish = await database.dish.findUnique({
       where: { id: dishId },
     });
@@ -39,7 +40,8 @@ export async function PATCH(req: NextRequest, { params }: Props) {
 
 export async function DELETE(req: NextRequest, { params }: Props) {
   try {
-    const dishId = parseInt(params.id);
+    const routeParams = await params;
+    const dishId = parseInt(routeParams.id);
     const dish = await database.dish.findUnique({
       where: { id: dishId },
     });

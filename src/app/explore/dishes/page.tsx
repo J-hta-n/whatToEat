@@ -9,10 +9,8 @@ import DeleteDialog from "../_components/DeleteDialog";
 import EditDishDialog from "./_components/EditDishDialog";
 
 const DishesPage = async () => {
-  // TODO: GET all dishes and load them
   const dishes = await database.dish.findMany();
 
-  // TODO: Display the dishes in card form
   return (
     <SubPage backHref="/explore" title="Dishes">
       <Toaster />
@@ -48,24 +46,6 @@ const DishesPage = async () => {
           );
         })}
       </Flex>
-      {/* <Flex gap="3" align="center" wrap="wrap">
-        {dishes.map((dish) => {
-          return (
-            <Link key={dish.id} href={`/explore/dishes/${dish.id}`}>
-              <Card
-                variant="classic"
-                style={{
-                  maxWidth: 250,
-                  backgroundColor: "azure",
-                }}
-                className="hover:text-emerald-700"
-              >
-                {dish.name}
-              </Card>
-            </Link>
-          );
-        })}
-      </Flex> */}
     </SubPage>
   );
 };

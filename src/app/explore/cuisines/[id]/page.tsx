@@ -2,36 +2,51 @@ import database from "@/prisma";
 import React from "react";
 import SubPage from "../../_components/SubPage";
 import SimpleList from "../../_components/SimpleList";
+import { Flex } from "@radix-ui/themes";
+import AddFoodPlaceSearchBar from "../../_components/AddFoodPlaceSearchBar";
+import { FoodPlace, Cuisine } from "@prisma/client";
+import { Toaster } from "react-hot-toast";
 
 interface Props {
-  params: {
-    id: string;
-  };
+  params: Promise<{ id: string }>;
 }
 
 const FoodPlacesByCuisinePage = async ({ params }: Props) => {
-  // TODO: GET all fp_ids from FoodPlaceByCuisine where cuisine_id = id, then
-  // GET all food places with these ids
+  const routeParams = await params;
+  const allFoodPlaces = await database.foodPlace.findMany();
   const foodPlaceIds = await database.foodPlaceByCuisine
     .findMany({
-      where: { cuisine_id: parseInt(params.id) },
+      where: { cuisine_id: parseInt(routeParams.id) },
+      orderBy: { created_at: "asc" },
     })
     .then((rows) => rows.map((row) => row.place_id));
-  const foodPlaces = await database.foodPlace.findMany({
-    where: { id: { in: foodPlaceIds } },
-  });
-  const cuisine = await database.cuisine
-    .findUnique({
-      where: { id: parseInt(params.id) },
-    })
-    .then((res) => res?.cuisine);
+  const includedFoodPlaces = foodPlaceIds.map(
+    (id) => allFoodPlaces[id - 1] // Works because place_id = array_id + 1
+  );
+  const excludedFoodPlaces = allFoodPlaces.filter(
+    (place: FoodPlace) => !foodPlaceIds.includes(place.id)
+  );
 
-  // TODO: Return all food places here in a nice list without too much details;
-  // ain' gonna implement filter, sort, or pagination here, so keep it short and simple
+  const cuisine: Cuisine | null = await database.cuisine.findUnique({
+    where: { id: parseInt(routeParams.id) },
+  });
 
   return (
-    <SubPage backHref="/explore/cuisines" title="Cuisines">
-      <SimpleList items={foodPlaces} name={cuisine!} />
+    <SubPage backHref="/explore/cuisines" title="cuisines">
+      <Toaster />
+      <Flex gap="5" justify="end" className="mr-20">
+        <AddFoodPlaceSearchBar
+          excludedFoodPlaces={excludedFoodPlaces}
+          exploreId={cuisine!["id"]}
+          junctionTable="foodplacesbycuisine"
+        />
+      </Flex>
+      <SimpleList
+        items={includedFoodPlaces}
+        title={cuisine!["cuisine"]}
+        exploreId={cuisine!["id"]}
+        junctionTable="foodplacesbycuisine"
+      />
     </SubPage>
   );
 };

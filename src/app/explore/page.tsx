@@ -1,12 +1,4 @@
-import {
-  Button,
-  Card,
-  Flex,
-  Heading,
-  Inset,
-  Strong,
-  Text,
-} from "@radix-ui/themes";
+import { Card, Flex, Heading, Inset, Strong, Text } from "@radix-ui/themes";
 import Link from "next/link";
 import React from "react";
 

@@ -2,7 +2,7 @@
 
 import { TCuisineSchema, cuisineSchema } from "@/validationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Dialog, Flex, Text, TextField } from "@radix-ui/themes";
+import { Button, Dialog, Flex, TextField } from "@radix-ui/themes";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -10,6 +10,8 @@ import toast from "react-hot-toast";
 
 const AddCuisineDialog = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const router = useRouter();
   const {
     register,
@@ -19,6 +21,7 @@ const AddCuisineDialog = () => {
     resolver: zodResolver(cuisineSchema),
   });
   const onSubmit = async (data: TCuisineSchema) => {
+    setIsSubmitting(true);
     // make the api POST here
     try {
       const response = await fetch("/api/cuisines", {
@@ -31,6 +34,7 @@ const AddCuisineDialog = () => {
         toast.error(
           `Error ${response.status}: ${JSON.stringify(responseData.error)}`
         );
+        setIsSubmitting(false);
         return;
       }
       setIsDialogOpen(false);
@@ -39,6 +43,7 @@ const AddCuisineDialog = () => {
     } catch (e) {
       toast.error(`Error: ${e}`);
     }
+    setIsSubmitting(false);
   };
   return (
     <>
@@ -68,7 +73,9 @@ const AddCuisineDialog = () => {
               >
                 Cancel
               </Button>
-              <Button type="submit">Add</Button>
+              <Button type="submit" disabled={isSubmitting}>
+                Add
+              </Button>
             </Flex>
           </form>
         </Dialog.Content>

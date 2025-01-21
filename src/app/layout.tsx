@@ -5,6 +5,7 @@ import NavBar from "./NavBar";
 import { ChakraProvider } from "@chakra-ui/react";
 import "./globals.css";
 import "@radix-ui/themes/styles.css";
+import MuiProvider from "./MuiProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,10 +23,12 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <ChakraProvider>
-          <Theme>
-            <NavBar />
-            <div className="p-5 ml-20 mr-20">{children}</div>
-          </Theme>
+          <MuiProvider>
+            <Theme>
+              <NavBar />
+              <div className="p-5 ml-20 mr-20">{children}</div>
+            </Theme>
+          </MuiProvider>
         </ChakraProvider>
       </body>
     </html>

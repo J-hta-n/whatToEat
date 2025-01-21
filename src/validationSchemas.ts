@@ -42,3 +42,12 @@ export const cuisineSchema = z.object({
 });
 
 export type TCuisineSchema = z.infer<typeof cuisineSchema>;
+
+export const foodPlacesByExploreSchema = z.object({
+  foodplace_id: z.number(),
+  explore_id: z.number(),
+});
+
+export type TFoodPlaceByExploreSchema = z.infer<
+  typeof foodPlacesByExploreSchema
+>;

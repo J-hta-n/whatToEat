@@ -19,7 +19,12 @@ const SubPage = ({ backHref, children, title }: Props) => {
         </IconButton>
       </Link>
       <Flex direction="column" gap="3" className="flex-grow">
-        <Strong className="text-center">{title}</Strong>
+        <Flex direction="row" gap="3">
+          <Strong className="text-center" style={{ flex: 1 }}>
+            {title}
+          </Strong>
+        </Flex>
+
         {children}
       </Flex>
     </Flex>
