@@ -8,17 +8,15 @@ import AddFoodPlaceSearchBar from "../../_components/AddFoodPlaceSearchBar";
 import { Toaster } from "react-hot-toast";
 
 interface Props {
-  params: {
-    id: string;
-  };
+  params: Promise<{ id: string }>;
 }
 
 const FoodPlacesByDishPage = async ({ params }: Props) => {
-  const queryParams = await params;
+  const routeParams = await params;
   const allFoodPlaces = await database.foodPlace.findMany();
   const foodPlaceIds = await database.foodPlaceByDish
     .findMany({
-      where: { dish_id: parseInt(queryParams.id) },
+      where: { dish_id: parseInt(routeParams.id) },
       orderBy: { created_at: "asc" },
     })
     .then((rows) => rows.map((row) => row.place_id));
@@ -30,7 +28,7 @@ const FoodPlacesByDishPage = async ({ params }: Props) => {
   );
 
   const dish: Dish | null = await database.dish.findUnique({
-    where: { id: parseInt(queryParams.id) },
+    where: { id: parseInt(routeParams.id) },
   });
 
   return (

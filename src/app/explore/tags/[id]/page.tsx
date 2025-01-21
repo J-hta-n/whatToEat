@@ -8,17 +8,15 @@ import { FoodPlace, Tag } from "@prisma/client";
 import { Toaster } from "react-hot-toast";
 
 interface Props {
-  params: {
-    id: string;
-  };
+  params: Promise<{ id: string }>;
 }
 
 const FoodPlacesByTagPage = async ({ params }: Props) => {
-  const queryParams = await params;
+  const routeParams = await params;
   const allFoodPlaces = await database.foodPlace.findMany();
   const foodPlaceIds = await database.foodPlaceByTag
     .findMany({
-      where: { tag_id: parseInt(queryParams.id) },
+      where: { tag_id: parseInt(routeParams.id) },
       orderBy: { created_at: "asc" },
     })
     .then((rows) => rows.map((row) => row.place_id));
@@ -30,7 +28,7 @@ const FoodPlacesByTagPage = async ({ params }: Props) => {
   );
 
   const tag: Tag | null = await database.tag.findUnique({
-    where: { id: parseInt(queryParams.id) },
+    where: { id: parseInt(routeParams.id) },
   });
 
   return (
