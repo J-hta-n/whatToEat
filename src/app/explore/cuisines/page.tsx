@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import React from "react";
 import SubPage from "../_components/SubPage";
 import database from "@/prisma";
