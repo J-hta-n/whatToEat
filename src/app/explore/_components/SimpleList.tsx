@@ -48,9 +48,7 @@ const SimpleList = ({ items, title, exploreId, junctionTable }: Props) => {
   };
 
   return items === null || items.length === 0 ? (
-    <Text className="text-center">
-      Oops, no food places found for '{title}'
-    </Text>
+    <Text className="text-center">Oops, no food places found for {title}</Text>
   ) : (
     <div style={{ justifyItems: "center" }}>
       <Text className="text-center underline">{title}</Text>
