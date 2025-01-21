@@ -2,11 +2,11 @@ import database from "@/prisma";
 import { TTagSchema, tagSchema } from "@/validationSchemas";
 import { NextRequest, NextResponse } from "next/server";
 
-interface RouteParams {
-  params: { id: string };
+interface Props {
+  params: Promise<{ id: string }>;
 }
 
-export async function PATCH(req: NextRequest, { params }: RouteParams) {
+export async function PATCH(req: NextRequest, { params }: Props) {
   const body: TTagSchema = await req.json();
   const validation = tagSchema.safeParse(body);
   if (!validation.success) {
@@ -17,7 +17,8 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
     return NextResponse.json({ error: zodErrors }, { status: 400 });
   }
   try {
-    const tagId = parseInt(params.id);
+    const routeParams = await params;
+    const tagId = parseInt(routeParams.id);
     const tag = await database.tag.findUnique({
       where: { id: tagId },
     });
@@ -37,9 +38,10 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
   }
 }
 
-export async function DELETE(req: NextRequest, { params }: RouteParams) {
+export async function DELETE(req: NextRequest, { params }: Props) {
   try {
-    const tagId = parseInt(params.id);
+    const routeParams = await params;
+    const tagId = parseInt(routeParams.id);
     const tag = await database.tag.findUnique({
       where: { id: tagId },
     });

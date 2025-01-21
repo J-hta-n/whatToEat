@@ -2,11 +2,11 @@ import database from "@/prisma";
 import { TCuisineSchema, cuisineSchema } from "@/validationSchemas";
 import { NextRequest, NextResponse } from "next/server";
 
-interface RouteParams {
-  params: { id: string };
+interface Props {
+  params: Promise<{ id: string }>;
 }
 
-export async function PATCH(req: NextRequest, { params }: RouteParams) {
+export async function PATCH(req: NextRequest, { params }: Props) {
   const body: TCuisineSchema = await req.json();
   const validation = cuisineSchema.safeParse(body);
   if (!validation.success) {
@@ -17,7 +17,8 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
     return NextResponse.json({ error: zodErrors }, { status: 400 });
   }
   try {
-    const cuisineId = parseInt(params.id);
+    const routeParams = await params;
+    const cuisineId = parseInt(routeParams.id);
     const cuisine = await database.cuisine.findUnique({
       where: { id: cuisineId },
     });
@@ -40,9 +41,10 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
   }
 }
 
-export async function DELETE(req: NextRequest, { params }: RouteParams) {
+export async function DELETE(req: NextRequest, { params }: Props) {
   try {
-    const cuisineId = parseInt(params.id);
+    const routeParams = await params;
+    const cuisineId = parseInt(routeParams.id);
     const cuisine = await database.cuisine.findUnique({
       where: { id: cuisineId },
     });
