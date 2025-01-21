@@ -5,7 +5,6 @@ import { Card, Flex } from "@radix-ui/themes";
 import Link from "next/link";
 
 const TagsPage = async () => {
-  // TODO: GET all locations and load them
   const locations = await database.location.findMany();
 
   // TODO: Display the locations in card form

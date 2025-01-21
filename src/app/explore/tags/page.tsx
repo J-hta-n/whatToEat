@@ -9,15 +9,12 @@ import { Toaster } from "react-hot-toast";
 import DeleteDialog from "../_components/DeleteDialog";
 
 const TagsPage = async () => {
-  // TODO: GET all tags and load them
   const tags = await database.tag.findMany();
   // Since tags are custom, allow the user to edit, add, or delete them.
   // For edit, currently attached foodplaces stay the same since the id's don't change.
   // For delete, simply remove the entries in the junction table first with the tag id,
-  // then remove the tag.
-  // Here, we would to make an api call for that
+  // then remove the tag. (delete on cascade)
 
-  // TODO: Display the tags in card form
   return (
     <SubPage backHref="/explore" title="Tags">
       <Toaster />

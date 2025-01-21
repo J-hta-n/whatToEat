@@ -9,9 +9,8 @@ import DeleteDialog from "../_components/DeleteDialog";
 import EditCuisineDialog from "./_components/EditCuisineDialog";
 
 const CuisinesPage = async () => {
-  // TODO: Fetch all cuisines directly from database; dunnid to unnecessarily abstract api
   // TODO: Display all cuisines here in a nice card list, abstract that component out for reuse
-  // for locations and cuisines too
+  // for locations and dishes too
   const cuisines = await database.cuisine.findMany();
   return (
     <SubPage backHref="/explore" title="Cuisines">
@@ -48,24 +47,6 @@ const CuisinesPage = async () => {
           );
         })}
       </Flex>
-      {/* <Flex gap="3" align="center" wrap="wrap">
-        {cuisines.map((cuisine) => {
-          return (
-            <Link key={cuisine.id} href={`/explore/cuisines/${cuisine.id}`}>
-              <Card
-                variant="classic"
-                style={{
-                  maxWidth: 250,
-                  backgroundColor: "azure",
-                }}
-                className="hover:text-emerald-700"
-              >
-                {cuisine.cuisine}
-              </Card>
-            </Link>
-          );
-        })}
-      </Flex> */}
     </SubPage>
   );
 };
