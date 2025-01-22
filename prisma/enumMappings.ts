@@ -9,6 +9,7 @@ export const enumMappings: Record<keyof FoodPlace, EnumMapping> = {
     CANTEEN_STALL: "Canteen stall",
     BAKERY: "Bakery",
     DESSERT_PLACE: "Dessert place",
+    OTHERS: "Others",
   },
   region: {
     NORTH: "North",

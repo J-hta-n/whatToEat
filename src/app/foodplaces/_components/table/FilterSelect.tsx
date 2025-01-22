@@ -4,13 +4,14 @@
 
 import { useRouter } from "next/navigation";
 import React from "react";
-
-import Select from "react-select";
+import dynamic from "next/dynamic";
 import makeAnimated from "react-select/animated";
 import { FoodQuery } from "../../page";
 import { FoodPlace, PlaceType, Region } from "@prisma/client";
 import { enumMappings } from "@/../prisma/enumMappings";
 
+// Dynamically load React-Select to avoid SSR mismatch
+const Select = dynamic(() => import("react-select"), { ssr: false });
 const animatedComponents = makeAnimated();
 
 type EnumTypes = Region | PlaceType;
@@ -35,6 +36,7 @@ export default function FilterSelect<T extends EnumTypes>({
 
   return (
     <Select
+      instanceId="static-id"
       onChange={(event) => {
         // @ts-ignore
         const selectedOptions: T[] = event.map((obj) => obj.value);
