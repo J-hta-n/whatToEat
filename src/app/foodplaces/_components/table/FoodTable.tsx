@@ -24,13 +24,18 @@ const FoodTable = ({ searchParams, foodPlaces, idOffset }: Props) => {
     <Table.Root>
       <Table.Header>
         <Table.Row>
-          <TableColumnHeaderCell>id</TableColumnHeaderCell>
+          <TableColumnHeaderCell key="id" className="w-[10%]">
+            id
+          </TableColumnHeaderCell>
           {columns.map((col) => {
             const params = new URLSearchParams(searchParams);
             setNewSortQuery(params, col.value);
 
             return (
-              <TableColumnHeaderCell key={col.value}>
+              <TableColumnHeaderCell
+                key={col.value}
+                className={`w-[${col.width}]`}
+              >
                 <Flex align="center">
                   <Link
                     href={
@@ -48,6 +53,7 @@ const FoodTable = ({ searchParams, foodPlaces, idOffset }: Props) => {
               </TableColumnHeaderCell>
             );
           })}
+          <TableColumnHeaderCell key="edit" className="w-[17%]" />
         </Table.Row>
       </Table.Header>
       <Table.Body>
@@ -62,7 +68,7 @@ const FoodTable = ({ searchParams, foodPlaces, idOffset }: Props) => {
                   : place[col.value]}
               </Table.Cell>
             ))}
-            <Table.Cell className="flex gap-x-3">
+            <Table.Cell key="edit" className="flex gap-x-3">
               <Link href={`/foodplaces/edit/${place.id}`}>
                 <IconButton
                   radius="full"
