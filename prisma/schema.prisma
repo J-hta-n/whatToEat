@@ -33,6 +33,7 @@ enum PlaceType {
   CANTEEN_STALL
   BAKERY
   DESSERT_PLACE
+  OTHERS
 }
 
 enum Region {
