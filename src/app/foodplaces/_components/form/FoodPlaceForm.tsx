@@ -29,6 +29,7 @@ const FoodPlaceForm = ({ existingFoodPlace, setIsDialogOpen }: Props) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
   const {
+    control,
     register,
     handleSubmit,
     formState: { errors },
@@ -69,26 +70,22 @@ const FoodPlaceForm = ({ existingFoodPlace, setIsDialogOpen }: Props) => {
     setIsDialogOpen ? setIsDialogOpen(false) : undefined;
   };
   return (
-    <div className="flex justify-center">
-      <form onSubmit={handleSubmit(onSubmit)} className="w-2/5">
+    <div className="flex justify-center h-5/6">
+      <form onSubmit={handleSubmit(onSubmit)} className="w-5/6 flex flex-col">
         {inputFields.map((inputField, i) => {
           return (
             <div className="p-0 m-0 flex flex-col" key={i}>
-              <input
-                {...register(inputField.value)}
-                placeholder={inputField.label}
-                className="p-1 mt-5 border-2"
-              />
-              {errors[inputField.value] && (
+              {inputField.component(register, control)}
+              {errors[inputField.key] && (
                 <p className="m-0 p-0 text-red-500">
-                  {errors[inputField.value]?.message}
+                  {errors[inputField.key]?.message}
                 </p>
               )}
             </div>
           );
         })}
-        <div className="pt-10" />
-        <Flex gap="9" justify="center">
+        <div className="flex-grow" />
+        <Flex gap="9" justify="center" className="mt-6">
           <Link href="/foodplaces">
             <Button
               type="button"
@@ -105,7 +102,6 @@ const FoodPlaceForm = ({ existingFoodPlace, setIsDialogOpen }: Props) => {
           </Button>
         </Flex>
       </form>
-      <Toaster />
     </div>
   );
 };

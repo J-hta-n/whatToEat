@@ -13,8 +13,10 @@ const AddNewFoodPlaceDialog = () => {
         <Dialog.Trigger>
           <Button onClick={() => setIsDialogOpen(true)}>Add new place</Button>
         </Dialog.Trigger>
-        <Dialog.Content>
-          <Dialog.Title>Add new place</Dialog.Title>
+        <Dialog.Content className="h-5/6 overflow-scroll">
+          <Dialog.Title className="pb-2 text-center">
+            Add new place
+          </Dialog.Title>
           <FoodPlaceForm setIsDialogOpen={setIsDialogOpen} />
         </Dialog.Content>
       </Dialog.Root>

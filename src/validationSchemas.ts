@@ -5,10 +5,10 @@ export const foodPlaceSchema = z.object({
   place_name: z.string().min(1, "Name is required").max(255),
   place_type: z.nativeEnum(PlaceType),
   tried_before: z.coerce.boolean(),
-  lb_cost: z.coerce.number().nullable(),
-  ub_cost: z.coerce.number().nullable(),
-  personal_rating: z.coerce.number().nullable(),
-  google_rating: z.coerce.number().nullable(),
+  lb_cost: z.coerce.number().min(0, "Cost must be greater than $0").nullable(),
+  ub_cost: z.coerce.number().min(0, "Cost must be greater than $0").nullable(),
+  personal_rating: z.coerce.number().min(0).max(5).nullable(),
+  google_rating: z.coerce.number().min(0).max(5).nullable(),
   region: z.nativeEnum(Region).nullable(),
 });
 
