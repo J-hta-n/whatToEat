@@ -36,10 +36,11 @@ const FoodPlacesPage = async ({ searchParams }: Props) => {
   const foodPlaceCount = await database.foodPlace.count({ where });
   const totalPages = Math.ceil(foodPlaceCount / PAGE_SIZE);
 
+  // TODO: Find out why toast isn't showing
   return (
     <>
       <div className="text-center mb-10">
-        <Toaster /> // TODO: Find out why toast isn't showing
+        <Toaster />
         <Heading mb="1">Food Places Database</Heading>
         <Text size="2" color="grass">
           Feel free to create, modify, and delete the list of food places here.
