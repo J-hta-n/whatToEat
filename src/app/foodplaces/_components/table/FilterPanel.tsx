@@ -13,9 +13,6 @@ const FilterPanel = ({ searchParams }: Props) => {
   return (
     <Flex gap="5" className="m-5" align="center">
       <div className="mr-32">
-        {/* <Link href="/foodplaces/add">
-          <Button>Add new place</Button>
-        </Link> */}
         <AddNewFoodPlaceDialog />
       </div>
       <div className="w-1/5">

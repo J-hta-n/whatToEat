@@ -9,6 +9,7 @@ import {
 import FilterPanel from "./_components/table/FilterPanel";
 import Pagination from "../_components/Pagination";
 import { Heading, Text } from "@radix-ui/themes";
+import { Toaster } from "react-hot-toast";
 
 interface Props {
   searchParams: Promise<FoodQuery>;
@@ -38,6 +39,7 @@ const FoodPlacesPage = async ({ searchParams }: Props) => {
   return (
     <>
       <div className="text-center mb-10">
+        <Toaster /> // TODO: Find out why toast isn't showing
         <Heading mb="1">Food Places Database</Heading>
         <Text size="2" color="grass">
           Feel free to create, modify, and delete the list of food places here.
