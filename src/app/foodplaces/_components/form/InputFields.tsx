@@ -1,18 +1,20 @@
-import { TFoodPlaceSchema } from "@/validationSchemas";
+import { TFoodPlaceByExploreArraysSchema } from "@/validationSchemas";
 
 import { Checkbox, Rating, TextField } from "@mui/material";
 import { ReactNode } from "react";
 import { Control, Controller, UseFormRegister } from "react-hook-form";
 import { enumMappings } from "@/../prisma/enumMappings";
 import { Flex } from "@radix-ui/themes";
+import { Cuisine, Dish, Tag } from "@prisma/client";
+import Select from "react-select";
 
 // https://www.react-hook-form.com/get-started/#IntegratingwithUIlibraries
 
 export const inputFields: {
-  key: keyof TFoodPlaceSchema;
+  key: keyof TFoodPlaceByExploreArraysSchema;
   component: (
-    register: UseFormRegister<TFoodPlaceSchema>,
-    control?: Control<TFoodPlaceSchema>
+    register: UseFormRegister<TFoodPlaceByExploreArraysSchema>,
+    control?: Control<TFoodPlaceByExploreArraysSchema>
   ) => ReactNode;
 }[] = [
   {
@@ -146,6 +148,66 @@ export const inputFields: {
   },
 ];
 
+export const exploreArrayFields: {
+  key: keyof TFoodPlaceByExploreArraysSchema;
+  component: (
+    explorePageContext: {
+      cuisines: Cuisine[];
+      dishes: Dish[];
+      tags: Tag[];
+    },
+    control: Control<TFoodPlaceByExploreArraysSchema>
+    // register: UseFormRegister<TFoodPlaceByExploreArraysSchema>
+  ) => ReactNode;
+}[] = [
+  {
+    key: "cuisines",
+    component: (explorePageContext, control) => (
+      <Controller
+        name="cuisines" // Register cuisines
+        control={control}
+        render={({ field }) => {
+          const options = explorePageContext["cuisines"].map((cuisine) => ({
+            value: cuisine.id,
+            label: cuisine.cuisine,
+          }));
+          return (
+            <Flex dir="col" className="mt-2">
+              <div className="flex-grow">
+                <Select
+                  placeholder="Cuisines"
+                  {...field}
+                  // @ts-ignore
+                  options={options}
+                  className="mt-5"
+                  isMulti
+                  closeMenuOnSelect={false}
+                />
+              </div>
+              <span className="invisible">*</span>
+            </Flex>
+          );
+        }}
+      />
+    ),
+  },
+];
+
+// <Flex dir="col" className="mt-2">
+//   <select
+//     {...control("cuisines")}
+//     multiple
+//     className="p-2 flex-grow border-2 border-gray-300 rounded"
+//   >
+//     <option disabled>Cuisines</option>
+//     {explorePageContext["cuisines"].map((cuisine: Cuisine, i) => (
+//       <option key={i} value={cuisine["id"]}>
+//         {cuisine["cuisine"]}
+//       </option>
+//     ))}
+//   </select>
+//   <span className="text-red-500 text-lg">*</span>
+// </Flex>
 // To use React Select
 // <Controller
 //   name="place_type"
