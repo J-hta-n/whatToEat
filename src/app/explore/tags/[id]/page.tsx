@@ -21,7 +21,7 @@ const FoodPlacesByTagPage = async ({ params }: Props) => {
     })
     .then((rows) => rows.map((row) => row.place_id));
   const includedFoodPlaces = foodPlaceIds.map(
-    (id) => allFoodPlaces[id - 1] // Works because place_id = array_id + 1
+    (id) => allFoodPlaces.find((place) => place.id === id)! // ! is used to assert that it won't be undefined
   );
   const excludedFoodPlaces = allFoodPlaces.filter(
     (place: FoodPlace) => !foodPlaceIds.includes(place.id)

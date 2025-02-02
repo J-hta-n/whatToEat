@@ -13,6 +13,8 @@ interface Props {
 
 const FoodPlacesByCuisinePage = async ({ params }: Props) => {
   const routeParams = await params;
+  // https://nextjs.org/docs/app/building-your-application/rendering/composition-patterns
+  // Data is fetched for SSR components first before being returned to the client
   const allFoodPlaces = await database.foodPlace.findMany();
   const foodPlaceIds = await database.foodPlaceByCuisine
     .findMany({
@@ -20,8 +22,10 @@ const FoodPlacesByCuisinePage = async ({ params }: Props) => {
       orderBy: { created_at: "asc" },
     })
     .then((rows) => rows.map((row) => row.place_id));
+  // IMPT NOTE: DO NOT USE foodPlaceIds.map((id) => allFoodPlaces[id-1]) as place_id is NOT necessarily = array_id + 1
+  // Also, foodPlaceIds is mapped to food places instead of filtering allFoodPlaces, as foodPlaceIds is already sorted by created_at
   const includedFoodPlaces = foodPlaceIds.map(
-    (id) => allFoodPlaces[id - 1] // Works because place_id = array_id + 1
+    (id) => allFoodPlaces.find((place) => place.id === id)! // ! is used to assert that it won't be undefined
   );
   const excludedFoodPlaces = allFoodPlaces.filter(
     (place: FoodPlace) => !foodPlaceIds.includes(place.id)
