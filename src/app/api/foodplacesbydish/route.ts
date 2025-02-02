@@ -1,13 +1,13 @@
 import database from "@/prisma";
 import {
   TFoodPlaceByExploreSchema,
-  foodPlacesByExploreSchema,
+  foodPlaceByExploreSchema,
 } from "@/validationSchemas";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   const body: TFoodPlaceByExploreSchema = await req.json();
-  const validation = foodPlacesByExploreSchema.safeParse(body);
+  const validation = foodPlaceByExploreSchema.safeParse(body);
   if (!validation.success) {
     let zodErrors = {};
     validation.error.errors.forEach((error) => {
@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   const body: TFoodPlaceByExploreSchema = await req.json();
-  const validation = foodPlacesByExploreSchema.safeParse(body);
+  const validation = foodPlaceByExploreSchema.safeParse(body);
   if (!validation.success) {
     let zodErrors = {};
     validation.error.errors.forEach((error) => {
