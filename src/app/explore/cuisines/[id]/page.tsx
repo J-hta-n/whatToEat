@@ -23,8 +23,9 @@ const FoodPlacesByCuisinePage = async ({ params }: Props) => {
     })
     .then((rows) => rows.map((row) => row.place_id));
   // IMPT NOTE: DO NOT USE foodPlaceIds.map((id) => allFoodPlaces[id-1]) as place_id is NOT necessarily = array_id + 1
-  const includedFoodPlaces = allFoodPlaces.filter((place: FoodPlace) =>
-    foodPlaceIds.includes(place.id)
+  // Also, foodPlaceIds is mapped to food places instead of filtering allFoodPlaces, as foodPlaceIds is already sorted by created_at
+  const includedFoodPlaces = foodPlaceIds.map(
+    (id) => allFoodPlaces.find((place) => place.id === id)! // ! is used to assert that it won't be undefined
   );
   const excludedFoodPlaces = allFoodPlaces.filter(
     (place: FoodPlace) => !foodPlaceIds.includes(place.id)
