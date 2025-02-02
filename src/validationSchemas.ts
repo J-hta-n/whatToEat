@@ -25,6 +25,9 @@ export const defaultFoodPlace = {
 
 export type TFoodPlaceSchema = z.infer<typeof foodPlaceSchema>;
 
+// Data type is due to the nature of React-Select
+// TODO: Redesign the schema such that cuisines, dishes, and tags are all subclasses of a common object
+// TODO: Figure out how to make nested folders similarly to GFS and Spotify to prevent repetition for cuisines, dishes, and tags
 export const exploreArraysSchema = z.object({
   cuisines: z
     .array(
