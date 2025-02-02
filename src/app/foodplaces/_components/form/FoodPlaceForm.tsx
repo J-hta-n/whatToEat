@@ -2,26 +2,35 @@
 
 import Spinner from "@/app/_components/Spinner";
 import {
-  TFoodPlaceSchema,
-  foodPlaceSchema,
+  TFoodPlaceByExploreArraysSchema,
+  foodPlaceByExploreArraysSchema,
   defaultFoodPlace,
 } from "@/validationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FoodPlace } from "@prisma/client";
+import { Cuisine, Dish, FoodPlace, Tag } from "@prisma/client";
 import { Button, Flex } from "@radix-ui/themes";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
-import { inputFields } from "./InputFields";
+import { exploreArrayFields, inputFields } from "./InputFields";
 
 interface Props {
   existingFoodPlace?: FoodPlace;
   setIsDialogOpen?: (open: boolean) => void;
+  explorePageContext: {
+    cuisines: Cuisine[];
+    dishes: Dish[];
+    tags: Tag[];
+  };
 }
 
-const FoodPlaceForm = ({ existingFoodPlace, setIsDialogOpen }: Props) => {
+const FoodPlaceForm = ({
+  existingFoodPlace,
+  setIsDialogOpen,
+  explorePageContext,
+}: Props) => {
   // reason isSubmitting from formState is not used is bcos we
   // only want the spinner to stop after the whole api function
   // is done, not just after submitting on the client side, so
@@ -33,11 +42,11 @@ const FoodPlaceForm = ({ existingFoodPlace, setIsDialogOpen }: Props) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<TFoodPlaceSchema>({
-    resolver: zodResolver(foodPlaceSchema),
+  } = useForm<TFoodPlaceByExploreArraysSchema>({
+    resolver: zodResolver(foodPlaceByExploreArraysSchema),
     defaultValues: existingFoodPlace || defaultFoodPlace,
   });
-  const onSubmit = async (data: TFoodPlaceSchema) => {
+  const onSubmit = async (data: TFoodPlaceByExploreArraysSchema) => {
     setIsSubmitting(true);
     try {
       let response: Response;
@@ -84,8 +93,20 @@ const FoodPlaceForm = ({ existingFoodPlace, setIsDialogOpen }: Props) => {
             </div>
           );
         })}
+        {exploreArrayFields.map((exploreArrayField, i) => {
+          return (
+            <div className="p-0 m-0 flex flex-col" key={i}>
+              {exploreArrayField.component(explorePageContext, control)}
+              {errors[exploreArrayField.key] && (
+                <p className="m-0 p-0 text-red-500">
+                  {errors[exploreArrayField.key]?.message}
+                </p>
+              )}
+            </div>
+          );
+        })}
         <div className="flex-grow" />
-        <Flex gap="9" justify="center" className="mt-6">
+        <Flex gap="9" justify="center" className="mt-6 pb-6">
           <Link href="/foodplaces">
             <Button
               type="button"

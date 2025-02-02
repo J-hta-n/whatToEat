@@ -25,6 +25,42 @@ export const defaultFoodPlace = {
 
 export type TFoodPlaceSchema = z.infer<typeof foodPlaceSchema>;
 
+export const exploreArraysSchema = z.object({
+  cuisines: z
+    .array(
+      z.object({
+        label: z.string(),
+        value: z.number(),
+      })
+    )
+    .default([]),
+  dishes: z
+    .array(
+      z.object({
+        label: z.string(),
+        value: z.number(),
+      })
+    )
+    .default([]),
+  tags: z
+    .array(
+      z.object({
+        label: z.string(),
+        value: z.number(),
+      })
+    )
+    .default([]),
+});
+
+export type TExploreArraysSchema = z.infer<typeof exploreArraysSchema>;
+
+export const foodPlaceByExploreArraysSchema =
+  foodPlaceSchema.merge(exploreArraysSchema);
+
+export type TFoodPlaceByExploreArraysSchema = z.infer<
+  typeof foodPlaceByExploreArraysSchema
+>;
+
 export const tagSchema = z.object({
   tag: z.string().min(1, "Tag name is required").max(255),
 });
@@ -43,11 +79,11 @@ export const cuisineSchema = z.object({
 
 export type TCuisineSchema = z.infer<typeof cuisineSchema>;
 
-export const foodPlacesByExploreSchema = z.object({
+export const foodPlaceByExploreSchema = z.object({
   foodplace_id: z.number(),
   explore_id: z.number(),
 });
 
 export type TFoodPlaceByExploreSchema = z.infer<
-  typeof foodPlacesByExploreSchema
+  typeof foodPlaceByExploreSchema
 >;
