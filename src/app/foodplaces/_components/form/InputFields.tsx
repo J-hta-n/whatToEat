@@ -1,4 +1,7 @@
-import { TFoodPlaceByExploreArraysSchema } from "@/validationSchemas";
+import {
+  TExploreArraysSchema,
+  TFoodPlaceByExploreArraysSchema,
+} from "@/validationSchemas";
 
 import { Checkbox, Rating, TextField } from "@mui/material";
 import { ReactNode } from "react";
@@ -156,16 +159,20 @@ export const exploreArrayFields: {
       dishes: Dish[];
       tags: Tag[];
     },
-    control: Control<TFoodPlaceByExploreArraysSchema>
+    control: Control<TFoodPlaceByExploreArraysSchema>,
+    existingExploreArrays?: TExploreArraysSchema
     // register: UseFormRegister<TFoodPlaceByExploreArraysSchema>
   ) => ReactNode;
 }[] = [
   {
     key: "cuisines",
-    component: (explorePageContext, control) => (
+    component: (explorePageContext, control, existingExploreArrays) => (
       <Controller
         name="cuisines" // Register cuisines
         control={control}
+        defaultValue={
+          existingExploreArrays ? existingExploreArrays["cuisines"] : undefined
+        }
         render={({ field }) => {
           const options = explorePageContext["cuisines"].map((cuisine) => ({
             value: cuisine.id,
@@ -175,7 +182,75 @@ export const exploreArrayFields: {
             <Flex dir="col" className="mt-2">
               <div className="flex-grow">
                 <Select
-                  placeholder="Cuisines"
+                  placeholder="Cuisine taggings"
+                  {...field}
+                  // @ts-ignore
+                  options={options}
+                  className="mt-5"
+                  isMulti
+                  closeMenuOnSelect={false}
+                />
+              </div>
+              <span className="invisible">*</span>
+            </Flex>
+          );
+        }}
+      />
+    ),
+  },
+  {
+    key: "dishes",
+    component: (explorePageContext, control, existingExploreArrays) => (
+      <Controller
+        name="dishes" // Register dish
+        control={control}
+        defaultValue={
+          existingExploreArrays ? existingExploreArrays["dishes"] : undefined
+        }
+        render={({ field }) => {
+          const options = explorePageContext["dishes"].map((dish) => ({
+            value: dish.id,
+            label: dish.name,
+          }));
+          return (
+            <Flex dir="col" className="mt-2">
+              <div className="flex-grow">
+                <Select
+                  placeholder="Dish taggings"
+                  {...field}
+                  // @ts-ignore
+                  options={options}
+                  className="mt-5"
+                  isMulti
+                  closeMenuOnSelect={false}
+                />
+              </div>
+              <span className="invisible">*</span>
+            </Flex>
+          );
+        }}
+      />
+    ),
+  },
+  {
+    key: "tags",
+    component: (explorePageContext, control, existingExploreArrays) => (
+      <Controller
+        name="tags" // Register tags
+        control={control}
+        defaultValue={
+          existingExploreArrays ? existingExploreArrays["tags"] : undefined
+        }
+        render={({ field }) => {
+          const options = explorePageContext["tags"].map((tag) => ({
+            value: tag.id,
+            label: tag.tag,
+          }));
+          return (
+            <Flex dir="col" className="mt-2">
+              <div className="flex-grow">
+                <Select
+                  placeholder="Custom taggings"
                   {...field}
                   // @ts-ignore
                   options={options}

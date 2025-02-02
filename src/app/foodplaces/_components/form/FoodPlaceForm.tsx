@@ -5,6 +5,7 @@ import {
   TFoodPlaceByExploreArraysSchema,
   foodPlaceByExploreArraysSchema,
   defaultFoodPlace,
+  TExploreArraysSchema,
 } from "@/validationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Cuisine, Dish, FoodPlace, Tag } from "@prisma/client";
@@ -18,16 +19,18 @@ import { exploreArrayFields, inputFields } from "./InputFields";
 
 interface Props {
   existingFoodPlace?: FoodPlace;
-  setIsDialogOpen?: (open: boolean) => void;
+  existingExploreArrays?: TExploreArraysSchema;
   explorePageContext: {
     cuisines: Cuisine[];
     dishes: Dish[];
     tags: Tag[];
   };
+  setIsDialogOpen?: (open: boolean) => void;
 }
 
 const FoodPlaceForm = ({
   existingFoodPlace,
+  existingExploreArrays,
   setIsDialogOpen,
   explorePageContext,
 }: Props) => {
@@ -96,7 +99,11 @@ const FoodPlaceForm = ({
         {exploreArrayFields.map((exploreArrayField, i) => {
           return (
             <div className="p-0 m-0 flex flex-col" key={i}>
-              {exploreArrayField.component(explorePageContext, control)}
+              {exploreArrayField.component(
+                explorePageContext,
+                control,
+                existingExploreArrays
+              )}
               {errors[exploreArrayField.key] && (
                 <p className="m-0 p-0 text-red-500">
                   {errors[exploreArrayField.key]?.message}
