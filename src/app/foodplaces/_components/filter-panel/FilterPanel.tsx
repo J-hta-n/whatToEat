@@ -21,20 +21,25 @@ const FilterPanel = async ({ searchParams }: Props) => {
   };
 
   return (
-    <Flex gap="5" className="m-5" align="center">
-      <div className="mr-32">
+    <div className="flex justify-between items-center flex-nowrap m-5 gap-0 md:gap-5">
+      {/* Left side — no wrapping, no shrinking */}
+      <div className="flex-shrink-0">
         <AddNewFoodPlaceDialog explorePageContext={explorePageContext} />
       </div>
-      <div className="w-1/5">
-        <FilterSelect<PlaceType>
-          searchParams={searchParams}
-          enumKey="place_type"
-        />
+
+      {/* Right side — allow wrapping, align right */}
+      <div className="flex flex-wrap justify-end gap-5 max-w-[70%]">
+        <div className="min-w-32 text-sm">
+          <FilterSelect<PlaceType>
+            searchParams={searchParams}
+            enumKey="place_type"
+          />
+        </div>
+        <div className="min-w-32 text-sm">
+          <FilterSelect<Region> searchParams={searchParams} enumKey="region" />
+        </div>
       </div>
-      <div className="w-1/5">
-        <FilterSelect<Region> searchParams={searchParams} enumKey="region" />
-      </div>
-    </Flex>
+    </div>
   );
 };
 

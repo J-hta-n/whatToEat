@@ -54,7 +54,7 @@ const SimpleList = ({ items, title, exploreId, junctionTable }: Props) => {
   ) : (
     <div style={{ justifyItems: "center" }}>
       <Text className="text-center underline">{title}</Text>
-      <ul style={{ width: "50%" }}>
+      <ul className="w-64 md:w-1/2">
         {items?.map((item) => (
           <li
             key={item.id}
