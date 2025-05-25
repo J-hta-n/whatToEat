@@ -47,9 +47,8 @@ const FoodPlacesPage = async ({ searchParams }: Props) => {
         <Text size="2" color="grass">
           Feel free to create, modify, and delete the list of food places here.
           Places can be tagged to according to various categories in the
-          {"'Explore'"} page.
+          {" 'Explore'"} page.
           <br />
-          [Coming soon: Being able to tag places directly from this page]
         </Text>
       </div>
       <FilterPanel searchParams={params} />
