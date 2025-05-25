@@ -71,7 +71,7 @@ const EditFoodPlaceForm = async ({ params }: Props) => {
     <div className="justify-items-center">
       <Strong>Edit Food Place</Strong>
 
-      <div className="w-1/2 mt-5">
+      <div className="mt-5">
         <FoodPlaceForm
           existingFoodPlace={foodPlace || undefined}
           existingExploreArrays={existingExploreArrays}
