@@ -61,7 +61,9 @@ export default function AddFoodPlaceSearchBar({
         handleChange(value, reason);
       }}
       sx={{ width: 300 }}
-      renderInput={(params) => <TextField {...params} label="Add Food Place" />}
+      renderInput={(params) => (
+        <TextField {...params} label="Search for food place to add" />
+      )}
       getOptionLabel={(place: FoodPlace) => place["place_name"]}
       renderOption={(props, place: FoodPlace) => (
         <li style={{ color: "purple" }} {...props} key={place["id"]}>
