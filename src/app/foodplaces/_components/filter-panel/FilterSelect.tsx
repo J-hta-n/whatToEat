@@ -50,7 +50,10 @@ export default function FilterSelect<T extends EnumTypes>({
         params.delete("page");
         router.push(
           // Remove all search params if empty
-          params.toString() ? `/foodplaces?${params.toString()}` : "/foodplaces"
+          params.toString()
+            ? `/foodplaces?${params.toString()}`
+            : "/foodplaces",
+          { scroll: false }
         );
       }}
       placeholder={`Filter by ${enumKey.replace(/_/g, " ")}`}

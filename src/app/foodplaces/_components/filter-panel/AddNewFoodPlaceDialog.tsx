@@ -20,7 +20,9 @@ const AddNewFoodPlaceDialog = ({ explorePageContext }: Props) => {
     <div>
       <Dialog.Root open={isDialogOpen}>
         <Dialog.Trigger>
-          <Button onClick={() => setIsDialogOpen(true)}>Add new place</Button>
+          <Button size="3" onClick={() => setIsDialogOpen(true)}>
+            Add
+          </Button>
         </Dialog.Trigger>
         <Dialog.Content className="h-5/6 overflow-scroll">
           <Dialog.Title className="pb-2 text-center">
