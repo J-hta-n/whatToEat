@@ -26,7 +26,7 @@ export default function RootLayout({
           <MuiProvider>
             <Theme>
               <NavBar />
-              <div className="p-5 ml-20 mr-20">{children}</div>
+              <div className="p-5">{children}</div>
             </Theme>
           </MuiProvider>
         </ChakraProvider>
