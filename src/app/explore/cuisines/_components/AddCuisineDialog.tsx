@@ -2,11 +2,12 @@
 
 import { TCuisineSchema, cuisineSchema } from "@/validationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Dialog, Flex, TextField } from "@radix-ui/themes";
+import { Button, Dialog, Flex, IconButton, TextField } from "@radix-ui/themes";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import AddButton from "../../_components/AddButton";
 
 const AddCuisineDialog = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -49,7 +50,7 @@ const AddCuisineDialog = () => {
     <>
       <Dialog.Root open={isDialogOpen}>
         <Dialog.Trigger onClick={() => setIsDialogOpen(true)}>
-          <Button>Add new cuisine</Button>
+          <AddButton />
         </Dialog.Trigger>
         <Dialog.Content>
           <Dialog.Title>Add new cuisine</Dialog.Title>

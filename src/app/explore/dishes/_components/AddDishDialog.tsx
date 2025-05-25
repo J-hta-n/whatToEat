@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import AddButton from "../../_components/AddButton";
 
 const AddDishDialog = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -49,7 +50,7 @@ const AddDishDialog = () => {
     <>
       <Dialog.Root open={isDialogOpen}>
         <Dialog.Trigger onClick={() => setIsDialogOpen(true)}>
-          <Button>Add new dish</Button>
+          <AddButton />
         </Dialog.Trigger>
         <Dialog.Content>
           <Dialog.Title>Add new dish</Dialog.Title>

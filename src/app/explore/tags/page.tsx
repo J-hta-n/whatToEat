@@ -18,11 +18,8 @@ const TagsPage = async () => {
   // then remove the tag. (delete on cascade)
 
   return (
-    <SubPage backHref="/explore" title="Tags">
+    <SubPage backHref="/explore" title="Tags" addDialog={<AddTagDialog />}>
       <Toaster />
-      <Flex gap="5" justify="end" className="mr-20">
-        <AddTagDialog />
-      </Flex>
       <Flex gap="3" align="center" wrap="wrap">
         {tags.map((tag) => {
           return (
