@@ -1,4 +1,3 @@
-// app/food-places/loading.tsx
 import { Skeleton } from "@radix-ui/themes";
 
 export default function Loading() {

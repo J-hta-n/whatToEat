@@ -36,9 +36,9 @@ const FoodPlacesByCuisinePage = async ({ params }: Props) => {
   });
 
   return (
-    <SubPage backHref="/explore/cuisines" title="cuisines">
+    <SubPage backHref="/explore/cuisines" title="Cuisines">
       <Toaster />
-      <Flex gap="5" justify="end" className="mr-20">
+      <Flex gap="5" justify="end" className="mr-5">
         <AddFoodPlaceSearchBar
           excludedFoodPlaces={excludedFoodPlaces}
           exploreId={cuisine!["id"]}
