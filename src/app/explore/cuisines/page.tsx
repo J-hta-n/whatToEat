@@ -15,11 +15,12 @@ const CuisinesPage = async () => {
   // for locations and dishes too
   const cuisines = await database.cuisine.findMany();
   return (
-    <SubPage backHref="/explore" title="Cuisines">
+    <SubPage
+      backHref="/explore"
+      title="Cuisines"
+      addDialog={<AddCuisineDialog />}
+    >
       <Toaster />
-      <Flex gap="5" justify="end" className="mr-20">
-        <AddCuisineDialog />
-      </Flex>
       <Flex gap="3" align="center" wrap="wrap">
         {cuisines.map((cuisine) => {
           return (
