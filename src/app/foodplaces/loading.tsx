@@ -3,18 +3,12 @@ import { Skeleton } from "@radix-ui/themes";
 export default function Loading() {
   return (
     <div className="space-y-6">
-      <div className="text-center mb-10">
-        <Skeleton inert className="h-8 w-64 mx-auto mb-2" />
-        <Skeleton inert className="h-4 w-96 mx-auto" />
+      {/* Pagination skeleton */}
+      <div className="flex justify-left gap-2 mt-6">
+        <Skeleton inert className="h-8 w-14" />
+        <Skeleton inert className="h-8 w-28" />
+        <Skeleton inert className="h-8 w-14" />
       </div>
-
-      {/* Filter panel skeleton */}
-      <div className="flex gap-4 mb-6">
-        <Skeleton inert className="h-10 w-32" />
-        <Skeleton inert className="h-10 w-32" />
-        <Skeleton inert className="h-10 w-32" />
-      </div>
-
       {/* Table skeleton */}
       <div className="space-y-3">
         <Skeleton inert className="h-12 w-full" /> {/* Header */}
@@ -22,12 +16,11 @@ export default function Loading() {
           <Skeleton inert key={i} className="h-16 w-full" />
         ))}
       </div>
-
       {/* Pagination skeleton */}
-      <div className="flex justify-center gap-2 mt-6">
-        <Skeleton inert className="h-8 w-8" />
-        <Skeleton inert className="h-8 w-8" />
-        <Skeleton inert className="h-8 w-8" />
+      <div className="flex justify-left gap-2 mt-6">
+        <Skeleton inert className="h-8 w-14" />
+        <Skeleton inert className="h-8 w-28" />
+        <Skeleton inert className="h-8 w-14" />
       </div>
     </div>
   );
