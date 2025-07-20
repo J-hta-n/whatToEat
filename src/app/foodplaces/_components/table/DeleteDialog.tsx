@@ -25,8 +25,10 @@ const DeleteDialog = ({ id, name }: Props) => {
       setErrorMsg(`Error ${response.status}: ${JSON.stringify(response.body)}`);
       return;
     }
-    mutate(
-      (key) => typeof key === "string" && key.startsWith("/api/foodplaces")
+    await mutate(
+      (key) => typeof key === "string" && key.startsWith("/api/foodplaces"),
+      undefined,
+      { revalidate: true }
     );
     setIsDeleting(false);
   };

@@ -11,7 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Cuisine, Dish, FoodPlace, Tag } from "@prisma/client";
 import { Button, Flex } from "@radix-ui/themes";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -41,6 +41,7 @@ const FoodPlaceForm = ({
   // as to improve the smoothness of the UI
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
   const {
     control,
     register,
@@ -74,12 +75,14 @@ const FoodPlaceForm = ({
         setIsSubmitting(false);
         return;
       }
-      router.push("/foodplaces");
       // IMPT: need to revalidate all keys that start with `/api/foodplaces` to prevent stale data
       // with different keys. Alternative is to set { revalidateIfStale: true } in useSWR
-      mutate(
-        (key) => typeof key === "string" && key.startsWith("/api/foodplaces")
+      await mutate(
+        (key) => typeof key === "string" && key.startsWith("/api/foodplaces"),
+        undefined, // no direct update, just trigger revalidation
+        { revalidate: true } // IMPT: need to explicitly revalidate this key to update cache
       );
+      router.push(`/foodplaces?${searchParams}`);
     } catch (e) {
       toast.error(`Error: ${e}`);
     }
@@ -119,7 +122,7 @@ const FoodPlaceForm = ({
         })}
         <div className="flex-grow" />
         <Flex gap="9" justify="center" className="mt-6 pb-6">
-          <Link href="/foodplaces">
+          <Link href={`/foodplaces?${searchParams}`}>
             <Button
               type="button"
               onClick={() =>

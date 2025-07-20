@@ -25,7 +25,6 @@ import Pagination from "@/components/Pagination";
 
 const FoodTable = () => {
   const searchParams = useSearchParams();
-  console.log("BRUHHH", canonicaliseSearchParams(searchParams));
   const { data, isLoading } = useSWR<GetFoodPlacesResponse>(
     searchParams.toString()
       ? `/api/foodplaces?${canonicaliseSearchParams(searchParams)}`
@@ -104,7 +103,7 @@ const FoodTable = () => {
                 </Table.Cell>
               ))}
               <Table.Cell key="edit" className="flex gap-x-3">
-                <Link href={`/foodplaces/edit/${place.id}`}>
+                <Link href={`/foodplaces/edit/${place.id}?${searchParams}`}>
                   <IconButton
                     radius="full"
                     size="1"
