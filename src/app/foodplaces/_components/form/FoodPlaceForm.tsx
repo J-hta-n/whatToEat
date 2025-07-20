@@ -1,6 +1,6 @@
 "use client";
 
-import Spinner from "@/app/_components/Spinner";
+import Spinner from "@/components/Spinner";
 import {
   TFoodPlaceByExploreArraysSchema,
   foodPlaceByExploreArraysSchema,
@@ -14,8 +14,9 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { exploreArrayFields, inputFields } from "./InputFields";
+import { mutate } from "swr";
 
 interface Props {
   existingFoodPlace?: FoodPlace;
@@ -74,7 +75,11 @@ const FoodPlaceForm = ({
         return;
       }
       router.push("/foodplaces");
-      router.refresh();
+      // IMPT: need to revalidate all keys that start with `/api/foodplaces` to prevent stale data
+      // with different keys. Alternative is to set { revalidateIfStale: true } in useSWR
+      mutate(
+        (key) => typeof key === "string" && key.startsWith("/api/foodplaces")
+      );
     } catch (e) {
       toast.error(`Error: ${e}`);
     }

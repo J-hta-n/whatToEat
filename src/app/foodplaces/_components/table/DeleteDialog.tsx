@@ -1,10 +1,10 @@
 "use client";
 
-import Spinner from "@/app/_components/Spinner";
+import Spinner from "@/components/Spinner";
 import { AlertDialog, Button, Flex, IconButton } from "@radix-ui/themes";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { mutate } from "swr";
 
 interface Props {
   id: number;
@@ -15,7 +15,6 @@ const DeleteDialog = ({ id, name }: Props) => {
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
-  const router = useRouter();
   const deleteFoodPlace = async () => {
     setIsDeleting(true);
     const response = await fetch(`/api/foodplaces/${id}`, {
@@ -26,7 +25,9 @@ const DeleteDialog = ({ id, name }: Props) => {
       setErrorMsg(`Error ${response.status}: ${JSON.stringify(response.body)}`);
       return;
     }
-    router.refresh();
+    mutate(
+      (key) => typeof key === "string" && key.startsWith("/api/foodplaces")
+    );
     setIsDeleting(false);
   };
   return (
