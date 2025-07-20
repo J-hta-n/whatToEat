@@ -2,7 +2,7 @@
 
 import { NextResponse } from "next/server";
 import database from "@/prisma";
-import { FoodPlace, PlaceType, Region } from "@prisma/client";
+import { FoodPlace } from "@prisma/client";
 import {
   buildWhereQuery,
   buildOrderByQuery,
