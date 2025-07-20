@@ -23,6 +23,7 @@ const Pagination = ({ curPage, totalPages }: Props) => {
   const goToPage = (page: number) => {
     const params = new URLSearchParams(searchParams);
     params.set("page", page.toString());
+    // {scroll: false} prevents jumping to top of page
     router.push(`?${params.toString()}`, { scroll: false });
   };
 
