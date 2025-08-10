@@ -1,23 +1,23 @@
+"use client";
+
 import React from "react";
-import { FoodQuery } from "../../page";
-import { Flex } from "@radix-ui/themes";
 import FilterSelect from "./FilterSelect";
 import { Cuisine, Dish, PlaceType, Region, Tag } from "@prisma/client";
 import AddNewFoodPlaceDialog from "./AddNewFoodPlaceDialog";
-import database from "@/prisma";
+import useSWR from "swr";
+import { paths } from "@/app/api/paths";
 
-interface Props {
-  searchParams: FoodQuery;
-}
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-const FilterPanel = async ({ searchParams }: Props) => {
-  const cuisines: Cuisine[] = await database.cuisine.findMany();
-  const dishes: Dish[] = await database.dish.findMany();
-  const tags: Tag[] = await database.tag.findMany();
+const FilterPanel = () => {
+  const { data: cuisines } = useSWR<Cuisine[]>(paths.cuisines, fetcher);
+  const { data: dishes } = useSWR<Dish[]>(paths.dishes, fetcher);
+  const { data: tags } = useSWR<Tag[]>(paths.tags, fetcher);
+
   const explorePageContext = {
-    cuisines: cuisines,
-    dishes: dishes,
-    tags: tags,
+    cuisines: cuisines || [],
+    dishes: dishes || [],
+    tags: tags || [],
   };
 
   return (
@@ -30,13 +30,10 @@ const FilterPanel = async ({ searchParams }: Props) => {
       {/* Right side — allow wrapping, align right */}
       <div className="flex flex-wrap justify-end gap-5 max-w-[70%]">
         <div className="min-w-32 text-sm">
-          <FilterSelect<PlaceType>
-            searchParams={searchParams}
-            enumKey="place_type"
-          />
+          <FilterSelect<PlaceType> enumKey="place_type" />
         </div>
         <div className="min-w-32 text-sm">
-          <FilterSelect<Region> searchParams={searchParams} enumKey="region" />
+          <FilterSelect<Region> enumKey="region" />
         </div>
       </div>
     </div>

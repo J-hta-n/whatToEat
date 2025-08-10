@@ -2,11 +2,10 @@
 
 // CREDITS: REACT-SELECT
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 import dynamic from "next/dynamic";
 import makeAnimated from "react-select/animated";
-import { FoodQuery } from "../../page";
 import { FoodPlace, PlaceType, Region } from "@prisma/client";
 import { enumMappings } from "@/../prisma/enumMappings";
 
@@ -17,14 +16,11 @@ const animatedComponents = makeAnimated();
 type EnumTypes = Region | PlaceType;
 
 interface Props {
-  searchParams: FoodQuery;
   enumKey: keyof FoodPlace;
 }
 
-export default function FilterSelect<T extends EnumTypes>({
-  searchParams,
-  enumKey,
-}: Props) {
+export default function FilterSelect<T extends EnumTypes>({ enumKey }: Props) {
+  const searchParams = useSearchParams();
   let options: { value: T; label: string }[] = new Array();
   // Populate all the enum options for the Select component
   // @ts-ignore
@@ -32,11 +28,16 @@ export default function FilterSelect<T extends EnumTypes>({
     options.push({ value: val, label: label });
   });
 
+  // Extract selected options from searchParams
+  const filterVals = (searchParams.get(enumKey) ?? "").split(",");
+  const curSelections = options.filter((opt) => filterVals.includes(opt.value));
+
   const router = useRouter();
 
   return (
     <Select
       instanceId="static-id"
+      value={curSelections}
       onChange={(event) => {
         // @ts-ignore
         const selectedOptions: T[] = event.map((obj) => obj.value);
