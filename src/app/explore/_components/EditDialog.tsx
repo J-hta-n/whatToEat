@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import { z } from "zod";
-import EditButton from "../_components/EditButton";
+import EditButton from "./EditButton";
 import { useRouter } from "next/navigation";
 
 type EditDialogProps<TSchema extends z.ZodTypeAny> = {
