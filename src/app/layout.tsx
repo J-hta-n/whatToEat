@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Theme } from "@radix-ui/themes";
-import NavBar from "./NavBar";
+import NavBar from "../components/ui/NavBar";
 import "./globals.css";
-import "@radix-ui/themes/styles.css";
-import MuiProvider from "./MuiProvider";
+import MuiProvider from "../components/providers/MuiProvider";
+import { SessionProvider } from "next-auth/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,12 +21,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <MuiProvider>
-          <Theme>
-            <NavBar />
-            <div className="p-5">{children}</div>
-          </Theme>
-        </MuiProvider>
+        <SessionProvider>
+          <MuiProvider>
+            <Theme>
+              <NavBar />
+              <div className="p-5">{children}</div>
+            </Theme>
+          </MuiProvider>
+        </SessionProvider>
       </body>
     </html>
   );
