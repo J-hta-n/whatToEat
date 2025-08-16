@@ -1,13 +1,13 @@
 "use client";
 
-import { TCuisineSchema, cuisineSchema } from "@/validationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Dialog, Flex, IconButton, TextField } from "@radix-ui/themes";
+import { Button, Dialog, Flex, TextField } from "@radix-ui/themes";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import AddButton from "../../_components/AddButton";
+import { cuisineSchema, TCuisineSchema } from "@/app/api/cuisines/post.schema";
 
 const AddCuisineDialog = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);

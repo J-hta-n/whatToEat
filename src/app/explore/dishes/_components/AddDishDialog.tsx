@@ -1,6 +1,5 @@
 "use client";
 
-import { TDishSchema, dishSchema } from "@/validationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Dialog, Flex, TextField } from "@radix-ui/themes";
 import { useRouter } from "next/navigation";
@@ -8,6 +7,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import AddButton from "../../_components/AddButton";
+import { dishSchema, TDishSchema } from "@/app/api/dishes/post.schema";
 
 const AddDishDialog = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -55,9 +55,9 @@ const AddDishDialog = () => {
         <Dialog.Content>
           <Dialog.Title>Add new dish</Dialog.Title>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <TextField.Input {...register("name")} placeholder="Name of dish" />
-            {errors["name"] && (
-              <p className="m-0 p-0 text-red-500">{errors["name"]?.message}</p>
+            <TextField.Input {...register("dish")} placeholder="Name of dish" />
+            {errors["dish"] && (
+              <p className="m-0 p-0 text-red-500">{errors["dish"]?.message}</p>
             )}
 
             <Flex gap="3" mt="3" justify="end">

@@ -25,7 +25,7 @@ async function main() {
   });
   await prisma.dish.createMany({
     data: dishes.map((s) => {
-      return { name: s };
+      return { dish: s };
     }),
   });
   await prisma.foodPlaceByCuisine.createMany({

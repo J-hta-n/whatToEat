@@ -1,6 +1,6 @@
 "use client";
 
-import Spinner from "@/components/Spinner";
+import Spinner from "@/components/ui/Spinner";
 import { AlertDialog, Button, Flex, IconButton } from "@radix-ui/themes";
 import { useState } from "react";
 import { RiDeleteBin6Line } from "react-icons/ri";

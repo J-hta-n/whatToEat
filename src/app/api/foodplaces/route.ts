@@ -1,5 +1,6 @@
+import { withUserId } from "@/lib/middlewares/auth";
 import { getFoodPlaces } from "./get";
 import { createFoodplace } from "./post";
 
-export const GET = getFoodPlaces;
-export const POST = createFoodplace;
+export const GET = withUserId(getFoodPlaces);
+export const POST = withUserId(createFoodplace);

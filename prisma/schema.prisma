@@ -8,8 +8,62 @@ generator client {
 // Database instance is hosted using AWS RDS (https://youtu.be/I_fTQTsz2nQ?si=mIBexc3O5RkWmYM4)
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = env("DEV_DATABASE_URL")
 }
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique // PrismaAdapter expects this to be unique
+  emailVerified DateTime? // Required by Auth.js PrismaAdapter
+  image         String?
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @updatedAt
+
+  // Add accounts for proper auth provider support
+  accounts      Account[]
+  sessions      Session[]
+  
+  // Relations to user-created content
+  foodPlaces    FoodPlace[]
+  cuisines      Cuisine[]
+  dishes        Dish[]
+  locations     Location[]
+  tags          Tag[]
+  categories    Category[]
+
+  @@index([email]) // Even without unique constraint, you'll query by email
+}
+
+// Add these models for Auth.js compatibility
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
 
 model FoodPlace {
   id              Int                   @id @default(autoincrement())
@@ -21,10 +75,22 @@ model FoodPlace {
   personal_rating Int?                  @default(0)
   google_rating   Int?                  @default(0)
   region          Region?               @default(ISLANDWIDE)
+  created_at      DateTime              @default(now())
+  updated_at      DateTime              @updatedAt
+  
+  // User relationship - NOW OPTIONAL for community resources
+  created_by      String?
+  user            User?                 @relation(fields: [created_by], references: [id], onDelete: Cascade)
+  
   cuisines        FoodPlaceByCuisine[]
   dishes          FoodPlaceByDish[]
   locations       FoodPlaceByLocation[]
   tags            FoodPlaceByTag[]
+
+  @@index([created_by]) // For user's food places queries
+  @@index([tried_before]) // For filtering by tried/untried
+  @@index([region]) // For regional filtering
+  @@index([place_type]) // For filtering by type
 }
 
 enum PlaceType {
@@ -46,38 +112,94 @@ enum Region {
 
 // Models for Cuisine, Dishes, Location, Tag, and Categories 
 model Cuisine {
-  id      Int                  @id @default(autoincrement())
-  cuisine String               @db.VarChar(100)
-  places  FoodPlaceByCuisine[]
+  id         Int                  @id @default(autoincrement())
+  cuisine    String               @db.VarChar(100)
+  created_at DateTime             @default(now())
+  updated_at DateTime             @updatedAt
+  
+  // User relationship - NOW OPTIONAL for community resources
+  created_by String?
+  user       User?                @relation(fields: [created_by], references: [id], onDelete: Cascade)
+  
+  places     FoodPlaceByCuisine[]
+
+  // Modified unique constraint to handle NULL created_by
+  // This allows multiple community cuisines with same name, but prevents user duplicates
+  @@unique([created_by, cuisine])
+  @@index([created_by])
 }
 
 model Dish {
-  id     Int               @id @default(autoincrement())
-  name   String            @db.VarChar(100)
-  places FoodPlaceByDish[]
+  id         Int               @id @default(autoincrement())
+  dish       String            @db.VarChar(100)
+  created_at DateTime          @default(now())
+  updated_at DateTime          @updatedAt
+  
+  // User relationship - NOW OPTIONAL for community resources
+  created_by String?
+  user       User?             @relation(fields: [created_by], references: [id], onDelete: Cascade)
+  
+  places     FoodPlaceByDish[]
+
+  // Modified unique constraint to handle NULL created_by
+  @@unique([created_by, dish])
+  @@index([created_by])
 }
 
 model Location {
-  id      Int                   @id @default(autoincrement())
-  name    String                @db.VarChar(100)
-  type    String                @db.VarChar(50)
-  region  Region
-  address String                @db.VarChar(255)
-  places  FoodPlaceByLocation[]
+  id         Int                   @id @default(autoincrement())
+  location   String                @db.VarChar(100)
+  type       String                @db.VarChar(50)
+  region     Region
+  address    String                @db.VarChar(255)
+  created_at DateTime              @default(now())
+  updated_at DateTime              @updatedAt
+  
+  // User relationship - NOW OPTIONAL for community resources
+  created_by String?
+  user       User?                 @relation(fields: [created_by], references: [id], onDelete: Cascade)
+  
+  places     FoodPlaceByLocation[]
+
+  // Modified unique constraint to handle NULL created_by
+  @@unique([created_by, location])
+  @@index([created_by])
 }
 
 model Tag {
   id          Int              @id @default(autoincrement())
   tag         String           @db.VarChar(100)
+  created_at  DateTime         @default(now())
+  updated_at  DateTime         @updatedAt
+  
+  // User relationship - NOW OPTIONAL for community resources
+  created_by  String?
+  user        User?            @relation(fields: [created_by], references: [id], onDelete: Cascade)
+  
   category    Category?        @relation(fields: [category_id], references: [id])
   category_id Int?
   places      FoodPlaceByTag[]
+
+  // Modified unique constraint to handle NULL created_by
+  @@unique([created_by, tag])
+  @@index([created_by])
 }
 
 model Category {
-  id       Int    @id @default(autoincrement())
-  category String @db.VarChar(100)
-  tags     Tag[]
+  id         Int      @id @default(autoincrement())
+  category   String   @db.VarChar(100)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  
+  // User relationship - NOW OPTIONAL for community resources
+  created_by String?
+  user       User?    @relation(fields: [created_by], references: [id], onDelete: Cascade)
+  
+  tags       Tag[]
+
+  // Modified unique constraint to handle NULL created_by
+  @@unique([created_by, category])
+  @@index([created_by])
 }
 
 // Junction Tables: FoodPlaceByCuisine, FoodPlaceByDish, FoodPlaceByLocation, and FoodPlaceByTag

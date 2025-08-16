@@ -31,7 +31,7 @@ const NavBarLinks = () => {
         <Link
           key={link.href}
           href={link.href}
-          className={`mx-5 ${
+          className={`mx-5 align-middle ${
             rootHref === link.href ? "text-orange-600" : "text-emerald-500"
           }  hover:text-emerald-700`}
         >

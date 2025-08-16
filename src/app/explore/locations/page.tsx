@@ -25,7 +25,7 @@ const TagsPage = async () => {
                   }}
                   className="hover:text-emerald-700"
                 >
-                  {loc.name}
+                  {loc.location}
                 </Card>
               </Link>
             );

@@ -1,8 +1,3 @@
-import {
-  TExploreArraysSchema,
-  TFoodPlaceByExploreArraysSchema,
-} from "@/validationSchemas";
-
 import { Checkbox, Rating, TextField } from "@mui/material";
 import { ReactNode } from "react";
 import { Control, Controller, UseFormRegister } from "react-hook-form";
@@ -10,6 +5,10 @@ import { enumMappings } from "@/../prisma/enumMappings";
 import { Flex } from "@radix-ui/themes";
 import { Cuisine, Dish, Tag } from "@prisma/client";
 import Select from "react-select";
+import {
+  TExploreArraysSchema,
+  TFoodPlaceByExploreArraysSchema,
+} from "@/app/api/foodplaces/post.schema";
 
 // https://www.react-hook-form.com/get-started/#IntegratingwithUIlibraries
 
@@ -210,7 +209,7 @@ export const exploreArrayFields: {
         render={({ field }) => {
           const options = explorePageContext["dishes"].map((dish) => ({
             value: dish.id,
-            label: dish.name,
+            label: dish.dish,
           }));
           return (
             <Flex dir="col" className="mt-2">
@@ -267,45 +266,3 @@ export const exploreArrayFields: {
     ),
   },
 ];
-
-// <Flex dir="col" className="mt-2">
-//   <select
-//     {...control("cuisines")}
-//     multiple
-//     className="p-2 flex-grow border-2 border-gray-300 rounded"
-//   >
-//     <option disabled>Cuisines</option>
-//     {explorePageContext["cuisines"].map((cuisine: Cuisine, i) => (
-//       <option key={i} value={cuisine["id"]}>
-//         {cuisine["cuisine"]}
-//       </option>
-//     ))}
-//   </select>
-//   <span className="text-red-500 text-lg">*</span>
-// </Flex>
-// To use React Select
-// <Controller
-//   name="place_type"
-//   control={control}
-//   render={({ field }) => {
-//     const options = Object.entries(enumMappings["place_type"]).map(
-//       ([key, value]) => ({
-//         value: key,
-//         label: value,
-//       })
-//     );
-//     return (
-//       <Select
-//         placeholder="Place Type"
-//         {...field}
-//         // @ts-ignore
-//         options={options}
-//         value={options.find((option) => option.value == field.value)} // Map string to object
-//         onChange={(selectedOption) =>
-//           field.onChange(selectedOption ? selectedOption.value : "")
-//         } // Map object to string
-//         className="mt-5"
-//       />
-//     );
-//   }}
-// />

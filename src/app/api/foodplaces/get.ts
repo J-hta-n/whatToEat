@@ -1,13 +1,7 @@
-// app/api/food-places/route.ts
-
 import { NextResponse } from "next/server";
-import database from "@/prisma";
 import { FoodPlace } from "@prisma/client";
-import {
-  buildWhereQuery,
-  buildOrderByQuery,
-  getPage,
-} from "@/lib/utils/searchParamUtils";
+import { RequestWithUserId } from "@/lib/middlewares/auth";
+import { getFoodPlacesService } from "@/lib/prisma/foodplaces/service";
 
 export const PAGE_SIZE = 20;
 
@@ -17,25 +11,16 @@ export type GetFoodPlacesResponse = {
   curPage: number;
 };
 
-export async function getFoodPlaces(request: Request) {
+export async function getFoodPlaces(request: RequestWithUserId) {
   try {
+    const userId = request.userId;
     const { searchParams } = new URL(request.url);
-    const orderBy = buildOrderByQuery(searchParams);
-    const where = buildWhereQuery(searchParams);
-    const curPage = getPage(searchParams);
-    const skip = (curPage - 1) * PAGE_SIZE;
 
-    const [foodPlaces, foodPlaceCount] = await Promise.all([
-      database.foodPlace.findMany({
-        // @ts-ignore
-        orderBy, // orderBy is of type {keyof FoodPlace, "asc" | "dsc"}[]
-        where,
-        skip,
-        take: PAGE_SIZE,
-      }),
-      database.foodPlace.count({ where }),
-    ]);
-    const totalPages = Math.ceil(foodPlaceCount / PAGE_SIZE);
+    const { foodPlaces, totalPages, curPage } = await getFoodPlacesService(
+      searchParams,
+      PAGE_SIZE,
+      userId
+    );
 
     return NextResponse.json({
       foodPlaces,

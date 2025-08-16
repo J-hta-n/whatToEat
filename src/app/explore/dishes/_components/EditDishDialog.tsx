@@ -1,9 +1,9 @@
 "use client";
 
-import { dishSchema } from "@/validationSchemas";
 import { Dish } from "@prisma/client";
 import { TextField } from "@radix-ui/themes";
 import { EditDialog } from "../../_components/EditDialog";
+import { dishSchema } from "@/app/api/dishes/post.schema";
 
 interface Props {
   dish: Dish;
@@ -19,12 +19,12 @@ const EditDishDialog = ({ dish }: Props) => {
       renderFields={(register, errors) => (
         <>
           <TextField.Input
-            {...register("name")}
+            {...register("dish")}
             placeholder="Name of dish"
-            defaultValue={dish.name}
+            defaultValue={dish.dish}
           />
-          {errors["name"] && (
-            <p className="m-0 p-0 text-red-500">{errors["name"]?.message}</p>
+          {errors["dish"] && (
+            <p className="m-0 p-0 text-red-500">{errors["dish"]?.message}</p>
           )}
         </>
       )}
