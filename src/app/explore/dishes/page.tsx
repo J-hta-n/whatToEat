@@ -33,12 +33,12 @@ const DishesPage = async () => {
                   href={`/explore/dishes/${dish.id}`}
                   className="hover:text-emerald-700 align-middle text-center"
                 >
-                  <Text>{dish.name}</Text>
+                  <Text>{dish.dish}</Text>
                 </Link>
                 <EditDishDialog dish={dish} />
                 <DeleteDialog
                   apiUrl={`/api/dishes/${dish.id}`}
-                  entryName={dish.name}
+                  entryName={dish.dish}
                 />
               </Flex>
             </Card>
