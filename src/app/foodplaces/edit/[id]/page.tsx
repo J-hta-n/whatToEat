@@ -3,7 +3,7 @@ import React from "react";
 import FoodPlaceForm from "../../_components/form/FoodPlaceForm";
 import { Strong } from "@radix-ui/themes";
 import { Cuisine, Dish, Tag } from "@prisma/client";
-import { TExploreArraysSchema } from "@/validationSchemas";
+import { TExploreArraysSchema } from "@/app/api/foodplaces/post.schema";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -61,7 +61,7 @@ const EditFoodPlaceForm = async ({ params }: Props) => {
       .map((cuisine) => ({ value: cuisine.id, label: cuisine.cuisine })),
     dishes: dishes
       .filter((dish) => dishIdsByFoodPlace.includes(dish.id))
-      .map((dish) => ({ value: dish.id, label: dish.name })),
+      .map((dish) => ({ value: dish.id, label: dish.dish })),
     tags: tags
       .filter((tag) => tagIdsByFoodPlace.includes(tag.id))
       .map((tag) => ({ value: tag.id, label: tag.tag })),

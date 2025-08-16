@@ -1,8 +1,8 @@
 import { RequestWithUserId } from "@/lib/middlewares/auth";
 import { getValidationErrorResponse } from "@/lib/utils/error-responses";
 import database from "@/prisma";
-import { TTagSchema, tagSchema } from "@/validationSchemas";
 import { NextResponse } from "next/server";
+import { tagSchema, TTagSchema } from "./post.schema";
 
 export async function createTag(req: RequestWithUserId) {
   const body: TTagSchema = await req.json();

@@ -1,8 +1,8 @@
 import { RequestWithUserId } from "@/lib/middlewares/auth";
 import { getValidationErrorResponse } from "@/lib/utils/error-responses";
 import database from "@/prisma";
-import { TDishSchema, dishSchema } from "@/validationSchemas";
 import { NextResponse } from "next/server";
+import { dishSchema, TDishSchema } from "./post.schema";
 
 export async function createDish(req: RequestWithUserId) {
   const body: TDishSchema = await req.json();

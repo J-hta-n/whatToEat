@@ -1,8 +1,8 @@
 import { RequestWithUserId } from "@/lib/middlewares/auth";
 import { getValidationErrorResponse } from "@/lib/utils/error-responses";
 import database from "@/prisma";
-import { TCuisineSchema, cuisineSchema } from "@/validationSchemas";
 import { NextResponse } from "next/server";
+import { cuisineSchema, TCuisineSchema } from "./post.schema";
 
 export async function createCuisine(req: RequestWithUserId) {
   const body: TCuisineSchema = await req.json();

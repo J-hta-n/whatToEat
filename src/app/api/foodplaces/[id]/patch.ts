@@ -1,15 +1,15 @@
 import { getValidationErrorResponse } from "@/lib/utils/error-responses";
 import database from "@/prisma";
-import {
-  TExploreArraysSchema,
-  TFoodPlaceByExploreArraysSchema,
-  TFoodPlaceSchema,
-  exploreArraysSchema,
-  foodPlaceSchema,
-} from "@/validationSchemas";
 import { NextResponse } from "next/server";
 import { Props } from "./route";
 import { RequestWithUserId } from "@/lib/middlewares/auth";
+import {
+  exploreArraysSchema,
+  foodPlaceSchema,
+  TExploreArraysSchema,
+  TFoodPlaceByExploreArraysSchema,
+  TFoodPlaceSchema,
+} from "../post.schema";
 
 export const updateFoodPlace = async (
   req: RequestWithUserId,

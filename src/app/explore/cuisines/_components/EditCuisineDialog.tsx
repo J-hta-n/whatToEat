@@ -1,9 +1,9 @@
 "use client";
 
-import { cuisineSchema } from "@/validationSchemas";
 import { Cuisine } from "@prisma/client";
 import { TextField } from "@radix-ui/themes";
 import { EditDialog } from "../../_components/EditDialog";
+import { cuisineSchema } from "@/app/api/cuisines/post.schema";
 
 interface Props {
   cuisine: Cuisine;

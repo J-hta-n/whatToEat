@@ -6,9 +6,9 @@ import { FoodPlace } from "@prisma/client";
 import { IconButton, Text } from "@radix-ui/themes";
 import React from "react";
 import { IoIosRemoveCircleOutline } from "react-icons/io";
-import { JunctionTableEndpoint } from "../../../../prisma/dataTypes";
-import { TFoodPlaceByExploreSchema } from "@/validationSchemas";
+import { JunctionTableEndpoint } from "@/../prisma/dataTypes";
 import toast from "react-hot-toast";
+import { TFoodPlaceByExploreSchema } from "@/app/api/foodplaces/post.schema";
 
 interface Props {
   items: FoodPlace[] | null;
