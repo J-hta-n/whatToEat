@@ -7,10 +7,14 @@ import {
   exploreArraysSchema,
   foodPlaceSchema,
 } from "@/validationSchemas";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { Props } from "./route";
+import { RequestWithUserId } from "@/lib/middlewares/auth";
 
-export async function updateFoodPlace(req: NextRequest, { params }: Props) {
+export const updateFoodPlace = async (
+  req: RequestWithUserId,
+  { params }: Props
+) => {
   const body: TFoodPlaceByExploreArraysSchema = await req.json();
   const validation = foodPlaceSchema.safeParse(body);
   if (!validation.success) {
@@ -36,7 +40,7 @@ export async function updateFoodPlace(req: NextRequest, { params }: Props) {
       }
     });
     const updatedFoodPlace = await database.foodPlace.update({
-      where: { id: placeId },
+      where: { id: placeId, created_by: req.userId },
       data: {
         ...updatedFoodPlaceBody,
       },
@@ -161,4 +165,4 @@ export async function updateFoodPlace(req: NextRequest, { params }: Props) {
     console.log(e);
     return NextResponse.json({ error: e }, { status: 500 });
   }
-}
+};
