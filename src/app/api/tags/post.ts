@@ -1,20 +1,21 @@
+import { RequestWithUserId } from "@/lib/middlewares/auth";
+import { getValidationErrorResponse } from "@/lib/utils/error-responses";
 import database from "@/prisma";
 import { TTagSchema, tagSchema } from "@/validationSchemas";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export async function createTag(req: NextRequest) {
+export async function createTag(req: RequestWithUserId) {
   const body: TTagSchema = await req.json();
   const validation = tagSchema.safeParse(body);
   if (!validation.success) {
-    let zodErrors = {};
-    validation.error.errors.forEach((error) => {
-      zodErrors = { ...zodErrors, [error.path[0]]: error.message };
-    });
-    return NextResponse.json({ error: zodErrors }, { status: 400 });
+    return getValidationErrorResponse(validation.error);
   }
   try {
     const newTag = await database.tag.create({
-      data: { tag: body.tag },
+      data: {
+        ...body,
+        created_by: req.userId,
+      },
     });
     return NextResponse.json({ status: 201 });
   } catch (e) {
