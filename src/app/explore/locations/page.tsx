@@ -1,20 +1,22 @@
-import database from "@/prisma";
+"use client";
+
 import React from "react";
 import SubPage from "../_components/SubPage";
 import { Card, Flex } from "@radix-ui/themes";
 import Link from "next/link";
+import useSWR from "swr";
+import { Location } from "@prisma/client";
 
-const TagsPage = async () => {
-  const locations = await database.location.findMany();
-
+const LocationsPage = () => {
+  const locations = [] as Location[];
   // TODO: Display the locations in card form
   return (
     <SubPage backHref="/explore" title="Locations">
-      {locations.length == 0 ? (
+      {locations?.length == 0 ? (
         <p className="text-center">Under development: coming soon</p>
       ) : (
         <Flex gap="3" align="center" wrap="wrap">
-          {locations.map((loc) => {
+          {locations?.map((loc) => {
             return (
               <Link key={loc.id} href={`/explore/locations/${loc.id}`}>
                 <Card
@@ -36,4 +38,4 @@ const TagsPage = async () => {
   );
 };
 
-export default TagsPage;
+export default LocationsPage;
