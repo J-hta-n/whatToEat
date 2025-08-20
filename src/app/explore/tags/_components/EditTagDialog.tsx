@@ -1,9 +1,9 @@
 "use client";
 
-import { tagSchema } from "@/validationSchemas";
 import { Tag } from "@prisma/client";
 import { TextField } from "@radix-ui/themes";
 import { EditDialog } from "../../_components/EditDialog";
+import { tagSchema } from "@/app/api/tags/post.schema";
 
 interface Props {
   tag: Tag;
@@ -16,6 +16,7 @@ const EditTagDialog = ({ tag }: Props) => {
       schema={tagSchema}
       defaultValues={tag}
       apiUrl={`/api/tags/${tag.id}`}
+      refetchUrl="/api/tags"
       renderFields={(register, errors) => (
         <>
           <TextField.Input

@@ -43,7 +43,7 @@ const FoodPlacesByDishPage = async ({ params }: Props) => {
       </Flex>
       <SimpleList
         items={includedFoodPlaces}
-        title={dish!["name"]}
+        title={dish!["dish"]}
         exploreId={dish!["id"]}
         junctionTable="foodplacesbydish"
       />

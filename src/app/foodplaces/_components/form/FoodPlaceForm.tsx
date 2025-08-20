@@ -1,12 +1,6 @@
 "use client";
 
-import Spinner from "@/components/Spinner";
-import {
-  TFoodPlaceByExploreArraysSchema,
-  foodPlaceByExploreArraysSchema,
-  defaultFoodPlace,
-  TExploreArraysSchema,
-} from "@/validationSchemas";
+import Spinner from "@/components/ui/Spinner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Cuisine, Dish, FoodPlace, Tag } from "@prisma/client";
 import { Button, Flex } from "@radix-ui/themes";
@@ -17,6 +11,12 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { exploreArrayFields, inputFields } from "./InputFields";
 import { mutate } from "swr";
+import {
+  defaultFoodPlace,
+  foodPlaceByExploreArraysSchema,
+  TExploreArraysSchema,
+  TFoodPlaceByExploreArraysSchema,
+} from "@/app/api/foodplaces/post.schema";
 
 interface Props {
   existingFoodPlace?: FoodPlace;
@@ -51,7 +51,9 @@ const FoodPlaceForm = ({
     resolver: zodResolver(foodPlaceByExploreArraysSchema),
     defaultValues: existingFoodPlace || defaultFoodPlace,
   });
-  const onSubmit = async (data: TFoodPlaceByExploreArraysSchema) => {
+  type NewType = TFoodPlaceByExploreArraysSchema;
+
+  const onSubmit = async (data: NewType) => {
     setIsSubmitting(true);
     try {
       let response: Response;

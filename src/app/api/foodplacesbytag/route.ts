@@ -1,9 +1,9 @@
 import database from "@/prisma";
-import {
-  TFoodPlaceByExploreSchema,
-  foodPlaceByExploreSchema,
-} from "@/validationSchemas";
 import { NextRequest, NextResponse } from "next/server";
+import {
+  foodPlaceByExploreSchema,
+  TFoodPlaceByExploreSchema,
+} from "../foodplaces/post.schema";
 
 export async function POST(req: NextRequest) {
   const body: TFoodPlaceByExploreSchema = await req.json();

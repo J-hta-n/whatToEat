@@ -1,8 +1,8 @@
 import database from "@/prisma";
-import { TCuisineSchema, cuisineSchema } from "@/validationSchemas";
 import { NextRequest, NextResponse } from "next/server";
 import { Props } from "./route";
 import { getValidationErrorResponse } from "@/lib/utils/error-responses";
+import { cuisineSchema, TCuisineSchema } from "../post.schema";
 
 export async function updateCuisine(req: NextRequest, { params }: Props) {
   const body: TCuisineSchema = await req.json();

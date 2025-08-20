@@ -4,13 +4,15 @@ import { AlertDialog, Button, Flex, IconButton } from "@radix-ui/themes";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { mutate } from "swr";
 
 interface Props {
   apiUrl: string;
+  refetchUrl?: string; // Optional, to force SWR refetch
   entryName: string;
 }
 
-const DeleteDialog = ({ apiUrl, entryName }: Props) => {
+const DeleteDialog = ({ apiUrl, refetchUrl, entryName }: Props) => {
   const router = useRouter();
   const deleteTag = async () => {
     // make the api DELETE here
@@ -24,6 +26,7 @@ const DeleteDialog = ({ apiUrl, entryName }: Props) => {
         );
         return;
       }
+      mutate(refetchUrl || "");
       toast.success("Item deleted successfully", {
         id: "deletedialog",
       });

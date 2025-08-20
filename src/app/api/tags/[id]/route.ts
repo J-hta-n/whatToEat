@@ -1,6 +1,6 @@
 import database from "@/prisma";
-import { TTagSchema, tagSchema } from "@/validationSchemas";
 import { NextRequest, NextResponse } from "next/server";
+import { tagSchema, TTagSchema } from "../post.schema";
 
 interface Props {
   params: Promise<{ id: string }>;

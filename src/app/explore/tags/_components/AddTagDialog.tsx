@@ -1,6 +1,5 @@
 "use client";
 
-import { TTagSchema, tagSchema } from "@/validationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Dialog, Flex, TextField } from "@radix-ui/themes";
 import { useRouter } from "next/navigation";
@@ -8,6 +7,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import AddButton from "../../_components/AddButton";
+import { tagSchema, TTagSchema } from "@/app/api/tags/post.schema";
+import { mutate } from "swr";
 
 const AddTagDialog = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -38,6 +39,7 @@ const AddTagDialog = () => {
         setIsSubmitting(false);
         return;
       }
+      mutate("/api/tags");
       setIsDialogOpen(false);
       toast.success("New tag added");
       router.refresh();

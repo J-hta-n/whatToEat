@@ -1,13 +1,17 @@
 import database from "@/prisma";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { Props } from "./route";
+import { RequestWithUserId } from "@/lib/middlewares/auth";
 
-export async function deleteFoodPlace(req: NextRequest, { params }: Props) {
+export async function deleteFoodPlace(
+  req: RequestWithUserId,
+  { params }: Props
+) {
   try {
     const routeParams = await params;
     const placeId = parseInt(routeParams.id);
     const foodPlace = await database.foodPlace.findUnique({
-      where: { id: placeId },
+      where: { id: placeId, created_by: req.userId },
     });
     if (!foodPlace) {
       return NextResponse.json(

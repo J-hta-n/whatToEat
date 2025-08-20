@@ -1,7 +1,10 @@
+import { RequestWithUserId } from "@/lib/middlewares/auth";
 import database from "@/prisma";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export async function getTags(req: NextRequest) {
-  const cuisines = await database.tag.findMany();
+export async function getTags(req: RequestWithUserId) {
+  const cuisines = await database.tag.findMany({
+    where: { created_by: req.userId },
+  });
   return NextResponse.json(cuisines, { status: 200 });
 }

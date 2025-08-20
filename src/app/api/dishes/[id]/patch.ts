@@ -1,8 +1,8 @@
 import database from "@/prisma";
-import { TDishSchema, dishSchema } from "@/validationSchemas";
 import { NextRequest, NextResponse } from "next/server";
 import { Props } from "./route";
 import { getValidationErrorResponse } from "@/lib/utils/error-responses";
+import { dishSchema, TDishSchema } from "../post.schema";
 
 export async function updateDish(req: NextRequest, { params }: Props) {
   const body: TDishSchema = await req.json();
