@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import AddButton from "../../_components/AddButton";
 import { dishSchema, TDishSchema } from "@/app/api/dishes/post.schema";
+import { mutate } from "swr";
 
 const AddDishDialog = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -38,6 +39,7 @@ const AddDishDialog = () => {
         setIsSubmitting(false);
         return;
       }
+      mutate("/api/dishes");
       setIsDialogOpen(false);
       toast.success("New dish added");
       router.refresh();

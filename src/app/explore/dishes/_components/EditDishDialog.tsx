@@ -16,6 +16,7 @@ const EditDishDialog = ({ dish }: Props) => {
       schema={dishSchema}
       defaultValues={dish}
       apiUrl={`/api/dishes/${dish.id}`}
+      refetchUrl="/api/dishes"
       renderFields={(register, errors) => (
         <>
           <TextField.Input

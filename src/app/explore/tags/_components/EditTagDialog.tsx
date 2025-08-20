@@ -16,6 +16,7 @@ const EditTagDialog = ({ tag }: Props) => {
       schema={tagSchema}
       defaultValues={tag}
       apiUrl={`/api/tags/${tag.id}`}
+      refetchUrl="/api/tags"
       renderFields={(register, errors) => (
         <>
           <TextField.Input

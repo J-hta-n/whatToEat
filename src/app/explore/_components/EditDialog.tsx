@@ -8,12 +8,14 @@ import { useState } from "react";
 import { z } from "zod";
 import EditButton from "./EditButton";
 import { useRouter } from "next/navigation";
+import { mutate } from "swr";
 
 type EditDialogProps<TSchema extends z.ZodTypeAny> = {
   title: string;
   schema: TSchema;
   defaultValues: z.infer<TSchema>;
   apiUrl: string;
+  refetchUrl?: string;
   successMessage: string;
   renderFields: (
     register: ReturnType<typeof useForm<z.infer<TSchema>>>["register"],
@@ -26,6 +28,7 @@ export function EditDialog<TSchema extends z.ZodTypeAny>({
   schema,
   defaultValues,
   apiUrl,
+  refetchUrl,
   successMessage,
   renderFields,
 }: EditDialogProps<TSchema>) {
@@ -56,6 +59,7 @@ export function EditDialog<TSchema extends z.ZodTypeAny>({
         );
         return;
       }
+      mutate(refetchUrl || "");
       toast.success(successMessage);
       setIsDialogOpen(false);
       router.refresh();

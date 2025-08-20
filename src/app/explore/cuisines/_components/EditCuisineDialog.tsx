@@ -16,6 +16,7 @@ const EditCuisineDialog = ({ cuisine }: Props) => {
       schema={cuisineSchema}
       defaultValues={cuisine}
       apiUrl={`/api/cuisines/${cuisine.id}`}
+      refetchUrl="/api/cuisines"
       renderFields={(register, errors) => (
         <>
           <TextField.Input
