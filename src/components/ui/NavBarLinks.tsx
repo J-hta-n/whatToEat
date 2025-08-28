@@ -26,7 +26,7 @@ const NavBarLinks = () => {
     },
   ];
   return (
-    <div>
+    <div className="flex overflow-hidden">
       {navBarLinks.map((link) => (
         <Link
           key={link.href}

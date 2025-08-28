@@ -52,7 +52,7 @@ const SimpleList = ({ items, title, exploreId, junctionTable }: Props) => {
   return items === null || items.length === 0 ? (
     <Text className="text-center">Oops, no food places found for {title}</Text>
   ) : (
-    <div style={{ justifyItems: "center" }}>
+    <div className="flex flex-col items-center">
       <Text className="text-center underline">{title}</Text>
       <ul className="w-64 md:w-1/2">
         {items?.map((item) => (

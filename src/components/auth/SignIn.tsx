@@ -21,18 +21,21 @@ const SignInDialog = ({ redirectUri }: Props) => {
             Login
           </Button>
         </Dialog.Trigger>
-        <Dialog.Content className="h-1/2">
-          <Dialog.Title className="pb-2 relative">
-            <Flex align="center">
+        <Dialog.Content className="h-2/5">
+          <Dialog.Title className="pt-2 pb-2 relative">
+            <Flex align="center" justify="between">
               {/* Invisible spacer on the left to balance the right button */}
               <div style={{ width: 30 }} />
-              <p style={{ margin: "0 auto" }}>Login to personalise your data</p>
+              <p className="text-center flex-1 mt-2">
+                Log in to personalise your data
+              </p>
               {/* Close button on right */}
               <IconButton
                 radius="full"
                 variant="ghost"
                 onClick={() => setIsDialogOpen(false)}
                 aria-label="Close"
+                className="pl-5 pb-3"
               >
                 <MdCancel size={25} />
               </IconButton>
