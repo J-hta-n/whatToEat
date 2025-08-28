@@ -4,9 +4,9 @@ import TextField from "@mui/material/TextField";
 import { useRouter } from "next/navigation";
 import Autocomplete from "@mui/material/Autocomplete";
 import { FoodPlace } from "@prisma/client";
-import { JunctionTableEndpoint } from "../../../../prisma/dataTypes";
-import { TFoodPlaceByExploreSchema } from "@/validationSchemas";
+import { JunctionTableEndpoint } from "@/../prisma/dataTypes";
 import toast from "react-hot-toast";
+import { TFoodPlaceByExploreSchema } from "@/app/api/foodplaces/post.schema";
 
 interface Props {
   excludedFoodPlaces: FoodPlace[];

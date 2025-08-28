@@ -21,7 +21,7 @@ import useSWR from "swr";
 import Loading from "../../loading";
 import { GetFoodPlacesResponse } from "@/app/api/foodplaces/get";
 import { useEffect, useRef, useState } from "react";
-import Pagination from "@/components/Pagination";
+import Pagination from "@/components/ui/Pagination";
 
 const FoodTable = () => {
   const searchParams = useSearchParams();
