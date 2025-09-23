@@ -1,5 +1,5 @@
 import { RequestWithUserId } from "@/lib/middlewares/auth";
-import database from "@/prisma";
+import database from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 export async function getTags(req: RequestWithUserId) {

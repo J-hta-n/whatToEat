@@ -1,4 +1,4 @@
-import database from "@/prisma";
+import database from "@/lib/prisma";
 import React from "react";
 import FoodPlaceForm from "../../_components/form/FoodPlaceForm";
 import { Strong } from "@radix-ui/themes";

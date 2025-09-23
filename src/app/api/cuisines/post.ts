@@ -1,6 +1,6 @@
 import { RequestWithUserId } from "@/lib/middlewares/auth";
 import { getValidationErrorResponse } from "@/lib/utils/error-responses";
-import database from "@/prisma";
+import database from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { cuisineSchema, TCuisineSchema } from "./post.schema";
 

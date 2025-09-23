@@ -1,4 +1,4 @@
-import database from "@/prisma";
+import database from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { Props } from "./route";
 import { RequestWithUserId } from "@/lib/middlewares/auth";

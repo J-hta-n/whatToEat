@@ -1,6 +1,6 @@
 "use client";
 
-import Spinner from "@/components/ui/Spinner";
+import Spinner from "@/components/layout/Spinner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Cuisine, Dish, FoodPlace, Tag } from "@prisma/client";
 import { Button, Flex } from "@radix-ui/themes";

@@ -1,4 +1,4 @@
-import database from "@/prisma";
+import database from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import {
   foodPlaceByExploreSchema,

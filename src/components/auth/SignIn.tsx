@@ -35,7 +35,6 @@ const SignInDialog = ({ redirectUri }: Props) => {
                 variant="ghost"
                 onClick={() => setIsDialogOpen(false)}
                 aria-label="Close"
-                className="pl-5 pb-3"
               >
                 <MdCancel size={25} />
               </IconButton>

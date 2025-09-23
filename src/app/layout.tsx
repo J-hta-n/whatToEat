@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Theme } from "@radix-ui/themes";
-import NavBar from "../components/ui/NavBar";
+import NavBar from "../components/layout/NavBar";
 import "./globals.css";
 import MuiProvider from "../components/providers/MuiProvider";
 import { SessionProvider } from "next-auth/react";

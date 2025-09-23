@@ -1,7 +1,7 @@
 import NextAuth, { NextAuthConfig } from "next-auth";
 import Google from "next-auth/providers/google";
 import Discord from "next-auth/providers/discord";
-import database from "@/prisma";
+import database from "@/lib/prisma";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 
 /**

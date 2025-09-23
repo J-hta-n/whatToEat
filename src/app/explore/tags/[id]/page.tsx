@@ -1,4 +1,4 @@
-import database from "@/prisma";
+import database from "@/lib/prisma";
 import React from "react";
 import SubPage from "../../_components/SubPage";
 import SimpleList from "../../_components/SimpleList";

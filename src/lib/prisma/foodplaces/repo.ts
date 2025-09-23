@@ -1,5 +1,5 @@
 import { TFoodPlaceSchema } from "@/app/api/foodplaces/post.schema";
-import database from "@/prisma";
+import database from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 
 type RelationType = "cuisines" | "dishes" | "tags";
