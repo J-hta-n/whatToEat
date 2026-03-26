@@ -1,5 +1,23 @@
 @import "tailwindcss/base";
 @import "@radix-ui/themes/styles.css";
 
+@media (prefers-reduced-motion: no-preference) {
+  .rt-DialogOverlay[data-state="closed"],
+  .rt-BaseDialogOverlay[data-state="closed"] {
+    animation: rt-fade-out 200ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+    animation-fill-mode: forwards !important;
+  }
+
+  .rt-DialogOverlay[data-state="closed"]::after,
+  .rt-BaseDialogOverlay[data-state="closed"]::after {
+    animation-fill-mode: forwards !important;
+  }
+
+  .rt-DialogContent[data-state="closed"],
+  .rt-BaseDialogContent[data-state="closed"] {
+    animation-fill-mode: forwards !important;
+  }
+}
+
 @tailwind components;
 @tailwind utilities;

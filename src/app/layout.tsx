@@ -11,6 +11,9 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "What To Eat?",
   description: "Get ideas for your next meal",
+  verification: {
+    google: "WDd7we_BmeXEqor8oG29xY5Qd1Fq8LX18-oMTQcOCb0",
+  },
 };
 
 export default function RootLayout({
