@@ -19,7 +19,7 @@ src/
 │       └── loading.tsx
 │       └── page.tsx
 ├── components/              # Reusable global UI components
-├── lib/
+├── lib/                # External integrations and global tools
 │   ├── auth            # NextAuth config
 │   ├── middlewares
 │   ├── prisma
@@ -28,7 +28,7 @@ src/
 
 ## Getting Started
 
-- Supply `DATABASE_URL` in .env using any empty postgres db (eg locally), then seed some dummy data with
+- Supply `DATABASE_URL` in .env using any empty postgres db (eg locally), then create the schema seed some dummy data with
 
 ```bash
 npx prisma migrate reset
